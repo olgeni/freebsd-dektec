@@ -32,30 +32,41 @@ To understand what is going on you will need at least the following:
 - Boards register maps from DekTek, or the Linux driver source code, to
   check the value of register base addresses, etc.
 
-To try things out:
+Bonus items:
 
-- An ASI source or ASI analyzer to try things out with an actual signal.
+- A copy of ISO/IEC 13818 Part 1 could help when developing userland
+  software.
 
-- A valid MPEG2 transport stream to test the output functions. You can make one with ffmpeg.
+- If you are using DVB, the relevant ETSI standards that you can grab at
+  [www.etsi.org](www.etsi.org).
 
-Bugs
-====
+To actually try things out:
+
+- An ASI source and/or ASI analyzer to handle actual streams.
+
+- A valid MPEG2 transport stream to test the output functions. You can make
+  one with ffmpeg or grab it from a TV decoder that supports TS recording.
+
+Bugs / gotchas
+==============
 
 - None if you use it correctly :) uptimes of years have been observed in
   production, but the range of operations performed by the client software
   is quite narrow so you'd better test everything _carefully_ in your
   environment.
 
+- Only 188-byte packet are supported.
+
 - Lots of boards are missing, but I can only support the models that I am
   actually using. The DTA-140 could be probably considered legacy and you
   will not be able to order it anymore. Lots of code is related to the
   handling of this board, which was the first to be implemented.
 
-- SDI operations are not yet supported.
+- SDI operations are not supported.
+
+- USB devices are not supported (not sure how much work it could be).
 
 - You _might_ have noticed that there's no documentation.
-
-- USB devices are not supported. Not sure how much work it could be.
 
 Todo
 ====
@@ -72,5 +83,7 @@ Todo
 - Add a few sysctl values to set the default parameters. This could be used
   to make streams accessible to shell scripts / pipes and to use netcat or ssh as
   a transport.
+
+- Add support for 208-byte packets.
 
 - Do something useful with the led, possibly from userland.
