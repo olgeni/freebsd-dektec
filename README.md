@@ -29,6 +29,10 @@ To understand what is going on you will need at least the following:
 - A PLX 9056 data sheet, for everything related to DMA. Newer boards use an
   FPGA with the same interface.
 
+- A copy of the original busdma paper:
+  [A Machine-Independent DMA Framework for NetBSD](http://www.netbsd.org/docs/kernel/bus_dma.pdf).
+  especially check bus\_dmamap\_sync.
+
 - Boards register maps from DekTek, or the Linux driver source code, to
   check the value of register base addresses, etc.
 
