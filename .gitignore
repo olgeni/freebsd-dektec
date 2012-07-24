@@ -1,0 +1,9 @@
+*.ko
+*.o
+@
+bus_if.h
+device_if.h
+export_syms
+machine
+pci_if.h
+x86
