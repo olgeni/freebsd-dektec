@@ -31,7 +31,7 @@ To understand what is going on you will need at least the following:
 
 - A copy of the original busdma paper:
   [A Machine-Independent DMA Framework for NetBSD](http://www.netbsd.org/docs/kernel/bus_dma.pdf).
-  especially check bus\_dmamap\_sync.
+  Especially check bus\_dmamap\_sync.
 
 - Boards register maps from DekTek, or the Linux driver source code, to
   check the value of register base addresses, etc.
