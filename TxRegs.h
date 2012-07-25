@@ -107,10 +107,10 @@ static inline void Dta1xxTxSetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_
 	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_GENCTRL);
 }
 
-static inline void Dta1xxTxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxTxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetGenCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_TX_GENCTRL_PE;
 	} else {
 		value &= ~DTA1XX_TX_GENCTRL_PE;
@@ -118,10 +118,10 @@ static inline void Dta1xxTxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handl
 	Dta1xxTxSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxTxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetGenCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_TX_GENCTRL_PRE;
 	} else {
 		value &= ~DTA1XX_TX_GENCTRL_PRE;
@@ -187,10 +187,10 @@ static inline int Dta1xxTxCtrlRegGetBurstMode (bus_space_tag_t tag, bus_space_ha
 	return (value >> 2);
 }
 
-static inline void Dta1xxTxCtrlRegSetBurstMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxTxCtrlRegSetBurstMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_TXCTRL_BURSTMODE;
 	} else {
 		value &= ~DTA1XX_TXCTRL_BURSTMODE;
@@ -205,10 +205,10 @@ static inline int Dta1xxTxCtrlRegGetPckStuff (bus_space_tag_t tag, bus_space_han
 	return (value >> 4);
 }
 
-static inline void Dta1xxTxCtrlRegSetPckStuff (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxTxCtrlRegSetPckStuff (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_TXCTRL_PCKSTUFF;
 	} else {
 		value &= ~DTA1XX_TXCTRL_PCKSTUFF;
@@ -250,10 +250,10 @@ static inline void Dta1xxTxCtrlRegSetTxDis (bus_space_tag_t tag, bus_space_handl
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxTxCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_TXCTRL_PERINT_EN;
 	} else {
 		value &= ~DTA1XX_TXCTRL_PERINT_EN;
@@ -261,10 +261,10 @@ static inline void Dta1xxTxCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_ha
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetUflIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxTxCtrlRegSetUflIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_TXCTRL_UFLINT_EN;
 	} else {
 		value &= ~DTA1XX_TXCTRL_UFLINT_EN;
@@ -272,10 +272,10 @@ static inline void Dta1xxTxCtrlRegSetUflIntEn (bus_space_tag_t tag, bus_space_ha
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxTxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_TXCTRL_SYNCINT_EN;
 	} else {
 		value &= ~DTA1XX_TXCTRL_SYNCINT_EN;
@@ -283,10 +283,10 @@ static inline void Dta1xxTxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_h
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetShortIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxTxCtrlRegSetShortIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_TXCTRL_SHORTINT_EN;
 	} else {
 		value &= ~DTA1XX_TXCTRL_SHORTINT_EN;
@@ -294,10 +294,10 @@ static inline void Dta1xxTxCtrlRegSetShortIntEn (bus_space_tag_t tag, bus_space_
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetThrIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxTxCtrlRegSetThrIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_TXCTRL_THRINT_EN;
 	} else {
 		value &= ~DTA1XX_TXCTRL_THRINT_EN;
@@ -323,10 +323,10 @@ static inline void Dta1xxTxCtrlRegSetUseExtClk (bus_space_tag_t tag, bus_space_h
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetEnaPwr (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxTxCtrlRegSetEnaPwr (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_TXCTRL_ENAPWR;
 	} else {
 		value &= ~DTA1XX_TXCTRL_ENAPWR;
@@ -356,10 +356,10 @@ static inline void Dta1xxTxChannelReset (bus_space_tag_t tag, bus_space_handle_t
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlSetTxAsiInv (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxTxCtrlSetTxAsiInv (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_TXCTRL_TXINVASI;
 	} else {
 		value &= ~DTA1XX_TXCTRL_TXINVASI;
@@ -535,10 +535,10 @@ static inline int Dta1xxTxDiagRegGetLoopBack (bus_space_tag_t tag, bus_space_han
 	return (value >> 8);
 }
 
-static inline int Dta1xxTxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline int Dta1xxTxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
-	if (0 != nEna) {
+	if (0 != enable) {
 		value |= DTA1XX_TXDIAG_LOOPBACK;
 	} else {
 		value &= ~DTA1XX_TXDIAG_LOOPBACK;

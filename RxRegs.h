@@ -109,10 +109,10 @@ static inline void Dta1xxRxSetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_
 	WRITE_LONG (value, tag, handle, DTA1XX_RX_REG_GENCTRL);
 }
 
-static inline void Dta1xxRxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxRxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetGenCtrlReg (tag, handle, base);
-	if (nEna == 1)
+	if (enable == 1)
 	{
 		value |= DTA1XX_RX_GENCTRL_PE;
 	}
@@ -123,10 +123,10 @@ static inline void Dta1xxRxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handl
 	Dta1xxRxSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxRxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxRxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetGenCtrlReg (tag, handle, base);
-	if (nEna==1) {
+	if (enable==1) {
 		value |= DTA1XX_RX_GENCTRL_PRE;
 	} else {
 		value &= ~DTA1XX_RX_GENCTRL_PRE;
@@ -208,10 +208,10 @@ static inline int Dta1xxRxCtrlRegGetEqualise (bus_space_tag_t tag, bus_space_han
 	}
 }
 
-static inline void Dta1xxRxCtrlRegSetEqualise (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxRxCtrlRegSetEqualise (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=nEna) {
+	if (0!=enable) {
 		value |= DTA1XX_RXCTRL_EQUALISE;
 	} else {
 		value &= ~DTA1XX_RXCTRL_EQUALISE;
@@ -229,10 +229,10 @@ static inline int Dta1xxRxCtrlRegGetRxCtrl (bus_space_tag_t tag, bus_space_handl
 	}
 }
 
-static inline void Dta1xxRxCtrlRegSetRxCtrl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxRxCtrlRegSetRxCtrl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=nEna) {
+	if (0!=enable) {
 		value |= DTA1XX_RXCTRL_RXCTRL;
 	} else {
 		value &= ~DTA1XX_RXCTRL_RXCTRL;
@@ -250,10 +250,10 @@ static inline int Dta1xxRxCtrlRegGetPerIntEn (bus_space_tag_t tag, bus_space_han
 	}
 }
 
-static inline void Dta1xxRxCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxRxCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=nEna) {
+	if (0!=enable) {
 		value |= DTA1XX_RXCTRL_PERINT_EN;
 	} else {
 		value &= ~DTA1XX_RXCTRL_PERINT_EN;
@@ -271,10 +271,10 @@ static inline int Dta1xxRxCtrlRegGetOvfIntEn (bus_space_tag_t tag, bus_space_han
 	}
 }
 
-static inline void Dta1xxRxCtrlRegSetOvfIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxRxCtrlRegSetOvfIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=nEna) {
+	if (0!=enable) {
 		value |= DTA1XX_RXCTRL_OVFINT_EN;
 	} else {
 		value &= ~DTA1XX_RXCTRL_OVFINT_EN;
@@ -295,10 +295,10 @@ static inline int Dta1xxRxCtrlRegGetSyncIntEn (bus_space_tag_t tag, bus_space_ha
 	}
 }
 
-static inline void Dta1xxRxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxRxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=nEna)
+	if (0!=enable)
 	{
 		value |= DTA1XX_RXCTRL_SYNCINT_EN;
 	}
@@ -322,10 +322,10 @@ static inline int Dta1xxRxCtrlRegGetThrIntEn (bus_space_tag_t tag, bus_space_han
 	}
 }
 
-static inline void Dta1xxRxCtrlRegSetThrIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxRxCtrlRegSetThrIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=nEna)
+	if (0!=enable)
 	{
 		value |= DTA1XX_RXCTRL_THRINT_EN;
 	}
@@ -349,10 +349,10 @@ static inline int Dta1xxRxCtrlRegGetRateOvfIntEn (bus_space_tag_t tag, bus_space
 	}
 }
 
-static inline void Dta1xxRxCtrlRegSetRateOvfIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxRxCtrlRegSetRateOvfIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=nEna) {
+	if (0!=enable) {
 		value |= DTA1XX_RXCTRL_RATEOVFINT_EN;
 	} else {
 		value &= ~DTA1XX_RXCTRL_RATEOVFINT_EN;
@@ -370,10 +370,10 @@ static inline int Dta1xxRxCtrlRegGetEnaPwr (bus_space_tag_t tag, bus_space_handl
 	}
 }
 
-static inline void Dta1xxRxCtrlRegSetEnaPwr (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline void Dta1xxRxCtrlRegSetEnaPwr (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=nEna) {
+	if (0!=enable) {
 		value |= DTA1XX_RXCTRL_ENAPWR;
 	} else {
 		value &= ~DTA1XX_RXCTRL_ENAPWR;
@@ -578,10 +578,10 @@ static inline int Dta1xxRxDiagRegGetLoopBack (bus_space_tag_t tag, bus_space_han
 	return (value >> 8);
 }
 
-static inline int Dta1xxRxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nEna)
+static inline int Dta1xxRxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetDiagReg (tag, handle, base);
-	if (0!=nEna)
+	if (0!=enable)
 	{
 		value |= DTA1XX_RXDIAG_LOOPBACK;
 	}
