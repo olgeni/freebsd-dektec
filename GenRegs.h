@@ -179,12 +179,12 @@ static inline int Dta1xxGenCtrlRegGetPerIntVal (bus_space_tag_t tag, bus_space_h
 	return (value & DTA1XX_GENCTRL_PERINT_VAL)>>5;
 }
 
-static inline void Dta1xxGenCtrlRegSetPerIntVal (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nIntVal)
+static inline void Dta1xxGenCtrlRegSetPerIntVal (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t intval)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
 	value &= ~DTA1XX_GENCTRL_PERINT_VAL;
-	value |= (nIntVal & 0x7) << 5;
+	value |= (intval & 0x7) << 5;
 
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
