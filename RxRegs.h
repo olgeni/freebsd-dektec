@@ -152,7 +152,7 @@ static inline int Dta1xxRxGenCtrlRegGetFirmwareRev (bus_space_tag_t tag, bus_spa
 
 	value &= DTA1XX_RX_GENCTRL_ALTERAREV;
 
-	return (value>>8);
+	return (value >> 8);
 }
 
 static inline int Dta1xxRxGenCtrlRegGetTypeNumber (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -161,7 +161,7 @@ static inline int Dta1xxRxGenCtrlRegGetTypeNumber (bus_space_tag_t tag, bus_spac
 
 	value &= DTA1XX_RX_GENCTRL_TYPENUM;
 
-	return (value>>16);
+	return (value >> 16);
 }
 
 static inline int Dta1xxRxGetRxCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -192,7 +192,7 @@ static inline int Dta1xxRxCtrlRegSetRxMode (bus_space_tag_t tag, bus_space_handl
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
 	value &= ~DTA1XX_RXCTRL_RXMODE;
-	value |= (nMode&0x3);
+	value |= (nMode & 0x3);
 
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 
@@ -205,7 +205,7 @@ static inline int Dta1xxRxCtrlRegGetAsiInv (bus_space_tag_t tag, bus_space_handl
 
 	value &= DTA1XX_RXCTRL_ASIINV;
 
-	return (value>>2);
+	return (value >> 2);
 }
 
 static inline void Dta1xxRxCtrlRegSetAsiInv (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t invert)
@@ -213,7 +213,7 @@ static inline void Dta1xxRxCtrlRegSetAsiInv (bus_space_tag_t tag, bus_space_hand
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
 	value &= ~DTA1XX_RXCTRL_ASIINV;
-	value |= ((invert&0x3)<<2);
+	value |= ((invert & 0x3) << 2);
 
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }
@@ -451,7 +451,7 @@ static inline int Dta1xxRxStatusRegGetNumInv (bus_space_tag_t tag, bus_space_han
 
 	value &= DTA1XX_RXSTAT_NUMINV;
 
-	return (value>>2);
+	return (value >> 2);
 }
 
 static inline int Dta1xxRxStatusRegGetSdramSize (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -460,7 +460,7 @@ static inline int Dta1xxRxStatusRegGetSdramSize (bus_space_tag_t tag, bus_space_
 
 	value &= DTA1XX_RXSTAT_SDRAMSIZE;
 
-	return (value>>4);
+	return (value >> 4);
 }
 
 static inline int Dta1xxRxStatusRegGetPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -646,7 +646,7 @@ static inline int Dta1xxRxDiagRegGetSdFull (bus_space_tag_t tag, bus_space_handl
 
 static inline void Dta1xxRxSetLoopBackData (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG ((value&0xFF), tag, handle, base + DTA1XX_RX_REG_LOOPBKDATA);
+	WRITE_LONG ((value & 0xFF), tag, handle, base + DTA1XX_RX_REG_LOOPBKDATA);
 }
 
 static inline int Dta1xxRxGetThreshCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)

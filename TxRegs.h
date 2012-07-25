@@ -150,7 +150,7 @@ static inline int Dta1xxTxGenCtrlRegGetFirmwareRev (bus_space_tag_t tag, bus_spa
 
 	value &= DTA1XX_TX_GENCTRL_ALTERAREV;
 
-	return (value>>8);
+	return (value >> 8);
 }
 
 static inline int Dta1xxTxGenCtrlRegGetTypeNumber (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -159,7 +159,7 @@ static inline int Dta1xxTxGenCtrlRegGetTypeNumber (bus_space_tag_t tag, bus_spac
 
 	value &= DTA1XX_TX_GENCTRL_TYPENUM;
 
-	return (value>>16);
+	return (value >> 16);
 }
 
 static inline int Dta1xxTxGetTxCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -182,7 +182,7 @@ static inline int Dta1xxTxCtrlRegGetTxMode (bus_space_tag_t tag, bus_space_handl
 
 	int txmode = (value & DTA1XX_TXCTRL_TXMODE);
 
-	txmode |= ((value & DTA1XX_TXCTRL_TXMODE_EXT)>>1);
+	txmode |= ((value & DTA1XX_TXCTRL_TXMODE_EXT) >> 1);
 
 	return txmode;
 }
@@ -246,7 +246,7 @@ static inline int Dta1xxTxCtrlRegGetTxCtrl (bus_space_tag_t tag, bus_space_handl
 
 	value &= DTA1XX_TXCTRL_TXCTRL;
 
-	return (value>>5);
+	return (value >> 5);
 }
 
 static inline void Dta1xxTxCtrlRegSetTxCtrl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t txctrl)
@@ -265,7 +265,7 @@ static inline int Dta1xxTxCtrlRegGetTxDis (bus_space_tag_t tag, bus_space_handle
 
 	value &= DTA1XX_TXCTRL_TXDIS;
 
-	return (value>>7);
+	return (value >> 7);
 }
 
 static inline void Dta1xxTxCtrlRegSetTxDis (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t disable)
