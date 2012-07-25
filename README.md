@@ -33,8 +33,9 @@ To understand what is going on you will need at least the following:
   [A Machine-Independent DMA Framework for NetBSD](http://www.netbsd.org/docs/kernel/bus_dma.pdf).
   Especially check bus\_dmamap\_sync.
 
-- Boards register maps from DekTek, or the Linux driver source code, to
-  check the value of register base addresses, etc.
+- Boards register maps from DekTek, or the Linux
+  [driver source code](http://dektec.com/Downloads/Drivers.asp), to check
+  the value of register base addresses, etc.
 
 Bonus items:
 
