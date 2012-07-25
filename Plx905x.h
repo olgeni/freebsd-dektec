@@ -37,10 +37,10 @@
 //
 
 typedef struct _SglDesc {
-  unsigned int m_uiPciAddress;
-  unsigned int m_uiLocalAddress;
-  unsigned int m_uiTransferSize;
-  unsigned int m_uiNextSglDesc;
+	unsigned int m_uiPciAddress;
+	unsigned int m_uiLocalAddress;
+	unsigned int m_uiTransferSize;
+	unsigned int m_uiNextSglDesc;
 } SglDesc;
 
 //+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+ REGISTER FIELDS +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=
