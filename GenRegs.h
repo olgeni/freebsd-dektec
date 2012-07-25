@@ -245,7 +245,7 @@ static inline void Dta1xxGenSetControl1Reg (bus_space_tag_t tag, bus_space_handl
 	WRITE_LONG (value, tag, handle, base + DTA1XX_GEN_REG_CONTROL1);
 }
 
-static __inline void Dta1xxGenToggleWatchdog (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void Dta1xxGenToggleWatchdog (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetControl1Reg (tag, handle, base);
 
