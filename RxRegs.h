@@ -126,7 +126,7 @@ static inline void Dta1xxRxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handl
 static inline void Dta1xxRxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetGenCtrlReg (tag, handle, base);
-	if (enable==1) {
+	if (enable) {
 		value |= DTA1XX_RX_GENCTRL_PRE;
 	} else {
 		value &= ~DTA1XX_RX_GENCTRL_PRE;
