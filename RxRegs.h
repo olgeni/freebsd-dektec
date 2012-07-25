@@ -112,22 +112,24 @@ static inline void Dta1xxRxSetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_
 static inline void Dta1xxRxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetGenCtrlReg (tag, handle, base);
-	if (enable == 1) {
+
+	if (enable == 1)
 		value |= DTA1XX_RX_GENCTRL_PE;
-	} else {
+	else
 		value &= ~DTA1XX_RX_GENCTRL_PE;
-	}
+
 	Dta1xxRxSetGenCtrlReg (tag, handle, base, value);
 }
 
 static inline void Dta1xxRxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetGenCtrlReg (tag, handle, base);
-	if (enable) {
+
+	if (enable)
 		value |= DTA1XX_RX_GENCTRL_PRE;
-	} else {
+	else
 		value &= ~DTA1XX_RX_GENCTRL_PRE;
-	}
+
 	Dta1xxRxSetGenCtrlReg (tag, handle, base, value);
 }
 
@@ -198,168 +200,176 @@ static inline void Dta1xxRxCtrlRegSetAsiInv (bus_space_tag_t tag, bus_space_hand
 static inline int Dta1xxRxCtrlRegGetEqualise (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXCTRL_EQUALISE)) {
+
+	if (0!=(value & DTA1XX_RXCTRL_EQUALISE))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxCtrlRegSetEqualise (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=enable) {
+
+	if (0!=enable)
 		value |= DTA1XX_RXCTRL_EQUALISE;
-	} else {
+	else
 		value &= ~DTA1XX_RXCTRL_EQUALISE;
-	}
+
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }
 
 static inline int Dta1xxRxCtrlRegGetRxCtrl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXCTRL_RXCTRL)) {
+
+	if (0!=(value & DTA1XX_RXCTRL_RXCTRL))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxCtrlRegSetRxCtrl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=enable) {
+
+	if (0!=enable)
 		value |= DTA1XX_RXCTRL_RXCTRL;
-	} else {
+	else
 		value &= ~DTA1XX_RXCTRL_RXCTRL;
-	}
+
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }
 
 static inline int Dta1xxRxCtrlRegGetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXCTRL_PERINT_EN)) {
+
+	if (0!=(value & DTA1XX_RXCTRL_PERINT_EN))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=enable) {
+
+	if (0!=enable)
 		value |= DTA1XX_RXCTRL_PERINT_EN;
-	} else {
+	else
 		value &= ~DTA1XX_RXCTRL_PERINT_EN;
-	}
+
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }
 
 static inline int Dta1xxRxCtrlRegGetOvfIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXCTRL_OVFINT_EN)) {
+
+	if (0!=(value & DTA1XX_RXCTRL_OVFINT_EN))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxCtrlRegSetOvfIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=enable) {
+
+	if (0!=enable)
 		value |= DTA1XX_RXCTRL_OVFINT_EN;
-	} else {
+	else
 		value &= ~DTA1XX_RXCTRL_OVFINT_EN;
-	}
+
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }
 
 static inline int Dta1xxRxCtrlRegGetSyncIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0 != (value & DTA1XX_RXCTRL_SYNCINT_EN)) {
+
+	if (0 != (value & DTA1XX_RXCTRL_SYNCINT_EN))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=enable) {
+
+	if (0!=enable)
 		value |= DTA1XX_RXCTRL_SYNCINT_EN;
-	} else {
+	else
 		value &= ~DTA1XX_RXCTRL_SYNCINT_EN;
-	}
+
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }
 
 static inline int Dta1xxRxCtrlRegGetThrIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXCTRL_THRINT_EN)) {
+
+	if (0!=(value & DTA1XX_RXCTRL_THRINT_EN))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxCtrlRegSetThrIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=enable) {
+
+	if (0!=enable)
 		value |= DTA1XX_RXCTRL_THRINT_EN;
-	} else {
+	else
 		value &= ~DTA1XX_RXCTRL_THRINT_EN;
-	}
+
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }
 
 static inline int Dta1xxRxCtrlRegGetRateOvfIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXCTRL_RATEOVFINT_EN)) {
+
+	if (0!=(value & DTA1XX_RXCTRL_RATEOVFINT_EN))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxCtrlRegSetRateOvfIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=enable) {
+
+	if (0!=enable)
 		value |= DTA1XX_RXCTRL_RATEOVFINT_EN;
-	} else {
+	else
 		value &= ~DTA1XX_RXCTRL_RATEOVFINT_EN;
-	}
+
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }
 
 static inline int Dta1xxRxCtrlRegGetEnaPwr (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXCTRL_ENAPWR)) {
+
+	if (0!=(value & DTA1XX_RXCTRL_ENAPWR))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxCtrlRegSetEnaPwr (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=enable) {
+
+	if (0!=enable)
 		value |= DTA1XX_RXCTRL_ENAPWR;
-	} else {
+	else
 		value &= ~DTA1XX_RXCTRL_ENAPWR;
-	}
+
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }
 
@@ -422,11 +432,11 @@ static inline int Dta1xxRxStatusRegGetSdramSize (bus_space_tag_t tag, bus_space_
 static inline int Dta1xxRxStatusRegGetPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxStatusReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXSTAT_PERINT)) {
+
+	if (0!=(value & DTA1XX_RXSTAT_PERINT))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxStatusRegClrPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -437,11 +447,11 @@ static inline void Dta1xxRxStatusRegClrPerInt (bus_space_tag_t tag, bus_space_ha
 static inline int Dta1xxRxStatusRegGetOvfInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxStatusReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXSTAT_OVFINT)) {
+
+	if (0!=(value & DTA1XX_RXSTAT_OVFINT))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxStatusRegClrOvfInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -452,11 +462,11 @@ static inline void Dta1xxRxStatusRegClrOvfInt (bus_space_tag_t tag, bus_space_ha
 static inline int Dta1xxRxStatusRegGetSyncInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxStatusReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXSTAT_SYNCINT)) {
+
+	if (0!=(value & DTA1XX_RXSTAT_SYNCINT))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxStatusRegClrSyncInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -467,11 +477,11 @@ static inline void Dta1xxRxStatusRegClrSyncInt (bus_space_tag_t tag, bus_space_h
 static inline int Dta1xxRxStatusRegGetThrInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxStatusReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXSTAT_THRINT)) {
+
+	if (0!=(value & DTA1XX_RXSTAT_THRINT))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxStatusRegClrThrInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -482,11 +492,11 @@ static inline void Dta1xxRxStatusRegClrThrInt (bus_space_tag_t tag, bus_space_ha
 static inline int Dta1xxRxStatusRegGetRateOvfInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxStatusReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXSTAT_RATEOVFINT)) {
+
+	if (0!=(value & DTA1XX_RXSTAT_RATEOVFINT))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxStatusRegClrRateOvfInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -497,41 +507,41 @@ static inline void Dta1xxRxStatusRegClrRateOvfInt (bus_space_tag_t tag, bus_spac
 static inline int Dta1xxRxStatusRegGetAsiCD (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxStatusReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXSTAT_ASICD)) {
+
+	if (0!=(value & DTA1XX_RXSTAT_ASICD))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline int Dta1xxRxStatusRegGetAsiLock (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxStatusReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXSTAT_ASILOCK)) {
+
+	if (0!=(value & DTA1XX_RXSTAT_ASILOCK))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline int Dta1xxRxStatusRegGetRateOk (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxStatusReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXSTAT_RATEOK)) {
+
+	if (0!=(value & DTA1XX_RXSTAT_RATEOK))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline int Dta1xxRxStatusRegGetAsiInv (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxStatusReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXSTAT_ASI_INV)) {
+
+	if (0!=(value & DTA1XX_RXSTAT_ASI_INV))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline int Dta1xxRxGetFifoLoadReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -563,33 +573,35 @@ static inline int Dta1xxRxDiagRegGetLoopBack (bus_space_tag_t tag, bus_space_han
 static inline int Dta1xxRxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetDiagReg (tag, handle, base);
-	if (0!=enable) {
+
+	if (0!=enable)
 		value |= DTA1XX_RXDIAG_LOOPBACK;
-	} else {
+	else
 		value &= ~DTA1XX_RXDIAG_LOOPBACK;
-	}
+
 	Dta1xxRxSetDiagReg (tag, handle, base, value);
+
 	return 0;
 }
 
 static inline int Dta1xxRxDiagRegGetRfRateOvf (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetDiagReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXDIAG_RFRATEOVF)) {
+
+	if (0!=(value & DTA1XX_RXDIAG_RFRATEOVF))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline int Dta1xxRxDiagRegGetSdFull (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetDiagReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXDIAG_SDFULL)) {
+
+	if (0!=(value & DTA1XX_RXDIAG_SDFULL))
 		return 1;
-	} else {
+	else
 		return 0;
-	}
 }
 
 static inline void Dta1xxRxSetLoopBackData (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
