@@ -187,12 +187,12 @@ static inline int Dta1xxRxCtrlRegGetRxMode (bus_space_tag_t tag, bus_space_handl
 	return value;
 }
 
-static inline int Dta1xxRxCtrlRegSetRxMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nMode)
+static inline int Dta1xxRxCtrlRegSetRxMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t mode)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
 	value &= ~DTA1XX_RXCTRL_RXMODE;
-	value |= (nMode & 0x3);
+	value |= (mode & 0x3);
 
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 
