@@ -192,8 +192,8 @@ static inline void Dta1xxTxCtrlRegSetTxMode (bus_space_tag_t tag, bus_space_hand
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
 	value &= ~(DTA1XX_TXCTRL_TXMODE_EXT | DTA1XX_TXCTRL_TXMODE);
-	value |= nTxMode&0x3;
-	value |= (nTxMode&0x4) << 1;
+	value |= nTxMode & 0x3;
+	value |= (nTxMode & 0x4) << 1;
 
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
@@ -254,7 +254,7 @@ static inline void Dta1xxTxCtrlRegSetTxCtrl (bus_space_tag_t tag, bus_space_hand
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
 	value &= ~DTA1XX_TXCTRL_TXCTRL;
-	value |= (nTxCtrl&0x3) << 5 ;
+	value |= (nTxCtrl & 0x3) << 5 ;
 
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
@@ -603,7 +603,7 @@ static inline int Dta1xxTxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_han
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
-	if (0 != enable)
+	if (enable)
 		value |= DTA1XX_TXDIAG_LOOPBACK;
 	else
 		value &= ~DTA1XX_TXDIAG_LOOPBACK;

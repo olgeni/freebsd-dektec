@@ -117,7 +117,7 @@ static inline void Dta1xxRxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handl
 {
 	int32_t value = Dta1xxRxGetGenCtrlReg (tag, handle, base);
 
-	if (enable == 1)
+	if (enable)
 		value |= DTA1XX_RX_GENCTRL_PE;
 	else
 		value &= ~DTA1XX_RX_GENCTRL_PE;
@@ -232,7 +232,7 @@ static inline void Dta1xxRxCtrlRegSetEqualise (bus_space_tag_t tag, bus_space_ha
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
-	if (0!=enable)
+	if (enable)
 		value |= DTA1XX_RXCTRL_EQUALISE;
 	else
 		value &= ~DTA1XX_RXCTRL_EQUALISE;
@@ -254,7 +254,7 @@ static inline void Dta1xxRxCtrlRegSetRxCtrl (bus_space_tag_t tag, bus_space_hand
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
-	if (0!=enable)
+	if (enable)
 		value |= DTA1XX_RXCTRL_RXCTRL;
 	else
 		value &= ~DTA1XX_RXCTRL_RXCTRL;
@@ -276,7 +276,7 @@ static inline void Dta1xxRxCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_ha
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
-	if (0!=enable)
+	if (enable)
 		value |= DTA1XX_RXCTRL_PERINT_EN;
 	else
 		value &= ~DTA1XX_RXCTRL_PERINT_EN;
@@ -298,7 +298,7 @@ static inline void Dta1xxRxCtrlRegSetOvfIntEn (bus_space_tag_t tag, bus_space_ha
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
-	if (0!=enable)
+	if (enable)
 		value |= DTA1XX_RXCTRL_OVFINT_EN;
 	else
 		value &= ~DTA1XX_RXCTRL_OVFINT_EN;
@@ -320,7 +320,7 @@ static inline void Dta1xxRxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_h
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
-	if (0!=enable)
+	if (enable)
 		value |= DTA1XX_RXCTRL_SYNCINT_EN;
 	else
 		value &= ~DTA1XX_RXCTRL_SYNCINT_EN;
@@ -342,7 +342,7 @@ static inline void Dta1xxRxCtrlRegSetThrIntEn (bus_space_tag_t tag, bus_space_ha
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
-	if (0!=enable)
+	if (enable)
 		value |= DTA1XX_RXCTRL_THRINT_EN;
 	else
 		value &= ~DTA1XX_RXCTRL_THRINT_EN;
@@ -364,7 +364,7 @@ static inline void Dta1xxRxCtrlRegSetRateOvfIntEn (bus_space_tag_t tag, bus_spac
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
-	if (0!=enable)
+	if (enable)
 		value |= DTA1XX_RXCTRL_RATEOVFINT_EN;
 	else
 		value &= ~DTA1XX_RXCTRL_RATEOVFINT_EN;
@@ -386,7 +386,7 @@ static inline void Dta1xxRxCtrlRegSetEnaPwr (bus_space_tag_t tag, bus_space_hand
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
-	if (0!=enable)
+	if (enable)
 		value |= DTA1XX_RXCTRL_ENAPWR;
 	else
 		value &= ~DTA1XX_RXCTRL_ENAPWR;
@@ -614,7 +614,7 @@ static inline int Dta1xxRxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_han
 {
 	int32_t value = Dta1xxRxGetDiagReg (tag, handle, base);
 
-	if (0!=enable)
+	if (enable)
 		value |= DTA1XX_RXDIAG_LOOPBACK;
 	else
 		value &= ~DTA1XX_RXDIAG_LOOPBACK;

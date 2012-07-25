@@ -89,7 +89,7 @@ static inline void Dta1xxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
-	if (enable != 0)
+	if (enable)
 		value |= DTA1XX_GENCTRL_PE;
 	else
 		value &= ~DTA1XX_GENCTRL_PE;
@@ -111,7 +111,7 @@ static inline void Dta1xxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
-	if (enable != 0)
+	if (enable)
 		value |= DTA1XX_GENCTRL_PRE;
 	else
 		value &= ~DTA1XX_GENCTRL_PRE;
@@ -123,7 +123,7 @@ static inline int Dta1xxGenCtrlRegGetPRE (bus_space_tag_t tag, bus_space_handle_
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
-	if ((value & DTA1XX_GENCTRL_PRE) != 0)
+	if (value & DTA1XX_GENCTRL_PRE)
 		return 1;
 	else
 		return 0;
@@ -147,7 +147,7 @@ static inline int Dta1xxGenCtrlRegGetPerIntEn (bus_space_tag_t tag, bus_space_ha
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
-	if ((value & DTA1XX_GENCTRL_PERINT_EN) != 0)
+	if (value & DTA1XX_GENCTRL_PERINT_EN)
 		return 1;
 	else
 		return 0;
@@ -157,7 +157,7 @@ static inline void Dta1xxGenCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_h
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
-	if (enable != 0)
+	if (enable)
 		value |= DTA1XX_GENCTRL_PERINT_EN;
 	else
 		value &= ~DTA1XX_GENCTRL_PERINT_EN;
@@ -203,7 +203,7 @@ static inline int Dta1xxGenStatusRegGetPerInt (bus_space_tag_t tag, bus_space_ha
 {
 	int32_t value = Dta1xxGenGetGenStatusReg (tag, handle, base);
 
-	if ((value & DTA1XX_GENSTAT_PERINT) != 0)
+	if (value & DTA1XX_GENSTAT_PERINT)
 		return 1;
 	else
 		return 0;
