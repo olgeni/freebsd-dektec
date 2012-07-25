@@ -104,7 +104,7 @@ static inline int Dta1xxGenCtrlRegGetPE (bus_space_tag_t tag, bus_space_handle_t
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
-	if ((value & DTA1XX_GENCTRL_PE) != 0)
+	if (value & DTA1XX_GENCTRL_PE)
 		return 1;
 	else
 		return 0;

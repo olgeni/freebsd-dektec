@@ -353,7 +353,7 @@ static inline void Dta1xxTxCtrlRegSetUseExtClk (bus_space_tag_t tag, bus_space_h
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
-	if (1==use)
+	if (use)
 		value |= DTA1XX_TXCTRL_USE_EXTCLOCK;
 	else
 		value &= ~DTA1XX_TXCTRL_USE_EXTCLOCK;
@@ -431,7 +431,7 @@ static inline int Dta1xxTxStatusRegGetFifoFilled (bus_space_tag_t tag, bus_space
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
-	if (0!=(value & DTA1XX_TXSTAT_FIFOFILLED))
+	if (value & DTA1XX_TXSTAT_FIFOFILLED)
 		return 1;
 	else
 		return 0;
@@ -450,7 +450,7 @@ static inline int Dta1xxTxStatusRegGetPerInt (bus_space_tag_t tag, bus_space_han
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
-	if (0!=(value & DTA1XX_TXSTAT_PERINT))
+	if (value & DTA1XX_TXSTAT_PERINT)
 		return 1;
 	else
 		return 0;
@@ -465,7 +465,7 @@ static inline int Dta1xxTxStatusRegGetUflInt (bus_space_tag_t tag, bus_space_han
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
-	if (0!=(value & DTA1XX_TXSTAT_UFLINT))
+	if (value & DTA1XX_TXSTAT_UFLINT)
 		return 1;
 	else
 		return 0;
@@ -480,7 +480,7 @@ static inline int Dta1xxTxStatusRegGetSyncInt (bus_space_tag_t tag, bus_space_ha
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
-	if (0!=(value & DTA1XX_TXSTAT_SYNCINT))
+	if (value & DTA1XX_TXSTAT_SYNCINT)
 		return 1;
 	else
 		return 0;
@@ -495,7 +495,7 @@ static inline int Dta1xxTxStatusRegGetShortInt (bus_space_tag_t tag, bus_space_h
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
-	if (0!=(value & DTA1XX_TXSTAT_SHORTINT))
+	if (value & DTA1XX_TXSTAT_SHORTINT)
 		return 1;
 	else
 		return 0;
@@ -510,7 +510,7 @@ static inline int Dta1xxTxStatusRegGetThrInt (bus_space_tag_t tag, bus_space_han
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
-	if (0!=(value & DTA1XX_TXSTAT_THRINT))
+	if (value & DTA1XX_TXSTAT_THRINT)
 		return 1;
 	else
 		return 0;
@@ -617,7 +617,7 @@ static inline int Dta1xxTxDiagRegGetSfDtValid (bus_space_tag_t tag, bus_space_ha
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
-	if (0!=(value & DTA1XX_TXDIAG_SFDTVALID))
+	if (value & DTA1XX_TXDIAG_SFDTVALID)
 		return 1;
 	else
 		return 0;
@@ -627,7 +627,7 @@ static inline int Dta1xxTxDiagRegGetDmaReq (bus_space_tag_t tag, bus_space_handl
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
-	if (0!=(value & DTA1XX_TXDIAG_DMAREQ))
+	if (value & DTA1XX_TXDIAG_DMAREQ)
 		return 1;
 	else
 		return 0;
@@ -637,7 +637,7 @@ static inline int Dta1xxTxDiagRegGetBfCanBurst (bus_space_tag_t tag, bus_space_h
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
-	if (0!=(value & DTA1XX_TXDIAG_BFCANBURST))
+	if (value & DTA1XX_TXDIAG_BFCANBURST)
 		return 1;
 	else
 		return 0;
@@ -647,7 +647,7 @@ static inline int Dta1xxTxDiagRegGetSfCanBurst (bus_space_tag_t tag, bus_space_h
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
-	if (0!=(value & DTA1XX_TXDIAG_SFCANBURST))
+	if (value & DTA1XX_TXDIAG_SFCANBURST)
 		return 1;
 	else
 		return 0;
@@ -701,14 +701,14 @@ static inline void Dta1xxTxSetFifoDataReg (bus_space_tag_t tag, bus_space_handle
 
 static inline int Dta1xxTxCtrlRegGetOutputEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return ((Dta1xxTxGetTxCtrlReg (tag, handle, base) & DTA1XX_TXCTRL_OUT_EN) != 0) ? 1 : 0;
+	return (Dta1xxTxGetTxCtrlReg (tag, handle, base) & DTA1XX_TXCTRL_OUT_EN) ? 1 : 0;
 }
 
 static inline void Dta1xxTxCtrlRegSetOutputEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
-	if (enable != 0)
+	if (enable)
 		value |=  DTA1XX_TXCTRL_OUT_EN;
 	else
 		value &= ~DTA1XX_TXCTRL_OUT_EN;
