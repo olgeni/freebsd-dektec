@@ -209,7 +209,7 @@ static inline int Dta1xxGenGetGenStatusReg (bus_space_tag_t tag, bus_space_handl
 	return value;
 }
 
-static void Dta1xxGenSetGenStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void Dta1xxGenSetGenStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_GEN_REG_GENSTATUS);
 }
