@@ -1,6 +1,7 @@
 *.ko
 *.o
 @
+README.html
 bus_if.h
 device_if.h
 export_syms
