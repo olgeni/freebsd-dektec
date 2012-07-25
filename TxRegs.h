@@ -373,12 +373,12 @@ static inline void Dta1xxTxCtrlRegSetEnaPwr (bus_space_tag_t tag, bus_space_hand
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxLedControl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nLedCtrl)
+static inline void Dta1xxTxLedControl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t ledctrl)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
 	value &= ~(DTA1XX_TXCTRL_LEDCTRL | DTA1XX_TXCTRL_GREENLED | DTA1XX_TXCTRL_REDLED);
-	value |= (nLedCtrl & 0x7) << 19;
+	value |= (ledctrl & 0x7) << 19;
 
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }

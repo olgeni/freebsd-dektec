@@ -394,12 +394,12 @@ static inline void Dta1xxRxCtrlRegSetEnaPwr (bus_space_tag_t tag, bus_space_hand
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxRxLedControl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nLedCtrl)
+static inline void Dta1xxRxLedControl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t ledctrl)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
 	value &= ~(DTA1XX_RXCTRL_LEDCTRL | DTA1XX_RXCTRL_GREENLED | DTA1XX_RXCTRL_REDLED);
-	value |= (nLedCtrl & 0x7) << 19;
+	value |= (ledctrl & 0x7) << 19;
 
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }

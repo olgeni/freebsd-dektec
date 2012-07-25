@@ -189,12 +189,12 @@ static inline void Dta1xxGenCtrlRegSetPerIntVal (bus_space_tag_t tag, bus_space_
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxGenLedControl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nLedCtrl)
+static inline void Dta1xxGenLedControl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t ledctrl)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
 	value &= ~(DTA1XX_GENCTRL_LEDCTRL | DTA1XX_GENCTRL_GREENLED | DTA1XX_GENCTRL_REDLED);
-	value |= (nLedCtrl & 0x7) << 24;
+	value |= (ledctrl & 0x7) << 24;
 
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
