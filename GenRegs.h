@@ -113,10 +113,7 @@ Dta1xxGenCtrlRegGetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t b
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
-	if (value & DTA1XX_GENCTRL_PE)
-		return 1;
-	else
-		return 0;
+	return (value & DTA1XX_GENCTRL_PE);
 }
 
 static inline void
@@ -137,10 +134,7 @@ Dta1xxGenCtrlRegGetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t 
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
-	if (value & DTA1XX_GENCTRL_PRE)
-		return 1;
-	else
-		return 0;
+	return (value & DTA1XX_GENCTRL_PRE);
 }
 
 static inline void
@@ -168,10 +162,7 @@ Dta1xxGenCtrlRegGetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
-	if (value & DTA1XX_GENCTRL_PERINT_EN)
-		return 1;
-	else
-		return 0;
+	return (value & DTA1XX_GENCTRL_PERINT_EN);
 }
 
 static inline void
@@ -238,10 +229,7 @@ Dta1xxGenStatusRegGetPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int
 {
 	int32_t value = Dta1xxGenGetGenStatusReg (tag, handle, base);
 
-	if (value & DTA1XX_GENSTAT_PERINT)
-		return 1;
-	else
-		return 0;
+	return (value & DTA1XX_GENSTAT_PERINT);
 }
 
 static inline void
