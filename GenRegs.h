@@ -71,8 +71,6 @@
 
 //+=+=+=+=+=+=+=+=+=+=+=+=+=+=+ General register operations +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=
 
-//.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenGetGenCtrlReg -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-//
 static inline int Dta1xxGenGetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
@@ -80,15 +78,11 @@ static inline int Dta1xxGenGetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_
 	return value;
 }
 
-//.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenSetGenCtrlReg -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-//
 static inline void Dta1xxGenSetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_GEN_REG_GENCTRL);
 }
 
-//.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenCtrlRegSetPE -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
-//
 static inline void Dta1xxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
@@ -101,8 +95,6 @@ static inline void Dta1xxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-//.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenCtrlRegGetPE -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
-//
 static inline int Dta1xxGenCtrlRegGetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
@@ -113,8 +105,6 @@ static inline int Dta1xxGenCtrlRegGetPE (bus_space_tag_t tag, bus_space_handle_t
 		return 0;
 }
 
-//.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenCtrlRegSetPRE -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-//
 static inline void Dta1xxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
@@ -127,8 +117,6 @@ static inline void Dta1xxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-//.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenCtrlRegGetPRE -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-//
 static inline int Dta1xxGenCtrlRegGetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
@@ -139,8 +127,6 @@ static inline int Dta1xxGenCtrlRegGetPRE (bus_space_tag_t tag, bus_space_handle_
 		return 0;
 }
 
-//.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenCtrlRegReset -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
-//
 static inline void Dta1xxGenCtrlRegReset (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
@@ -148,8 +134,6 @@ static inline void Dta1xxGenCtrlRegReset (bus_space_tag_t tag, bus_space_handle_
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-//.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenCtrlRegGetFirmwareRev -.-.-.-.-.-.-.-.-.-.-.-.-.-.
-//
 static inline int Dta1xxGenCtrlRegGetFirmwareRev (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
@@ -157,8 +141,6 @@ static inline int Dta1xxGenCtrlRegGetFirmwareRev (bus_space_tag_t tag, bus_space
 	return ((value >> 8) & 0xFF);
 }
 
-//-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenCtrlRegGetPerIntEn -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-//
 static inline int Dta1xxGenCtrlRegGetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
@@ -169,8 +151,6 @@ static inline int Dta1xxGenCtrlRegGetPerIntEn (bus_space_tag_t tag, bus_space_ha
 		return 0;
 }
 
-//-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenCtrlRegSetPerIntEn -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-//
 static inline void Dta1xxGenCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
@@ -183,16 +163,12 @@ static inline void Dta1xxGenCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_h
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-//-.-.-.-.-.-.-.-.-.-.-.-.-.-. Dta1xxGenCtrlRegGetPerIntVal -.-.-.-.-.-.-.-.-.-.-.-.-.-.-
-//
 static inline int Dta1xxGenCtrlRegGetPerIntVal (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t Val = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 	return (Val & DTA1XX_GENCTRL_PERINT_VAL)>>5;
 }
 
-//-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenCtrlRegSetPerIntVal -.-.-.-.-.-.-.-.-.-.-.-.-.-.-
-//
 static inline void Dta1xxGenCtrlRegSetPerIntVal (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nIntVal)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
@@ -201,8 +177,6 @@ static inline void Dta1xxGenCtrlRegSetPerIntVal (bus_space_tag_t tag, bus_space_
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenLedControl -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-//
 static inline void Dta1xxGenLedControl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nLedCtrl)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
@@ -211,8 +185,6 @@ static inline void Dta1xxGenLedControl (bus_space_tag_t tag, bus_space_handle_t 
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenGetGenStatusReg -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
-//
 static inline int Dta1xxGenGetGenStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
@@ -220,15 +192,11 @@ static inline int Dta1xxGenGetGenStatusReg (bus_space_tag_t tag, bus_space_handl
 	return value;
 }
 
-//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenSetGenStatusReg -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
-//
 static void Dta1xxGenSetGenStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_GEN_REG_GENSTATUS);
 }
 
-//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenIsPerIntSet -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
-//
 static inline int Dta1xxGenStatusRegGetPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenStatusReg (tag, handle, base);
@@ -239,14 +207,11 @@ static inline int Dta1xxGenStatusRegGetPerInt (bus_space_tag_t tag, bus_space_ha
 		return 0;
 }
 
-//-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Dta1xxGenStatusRegClrPerInt -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-//
 static inline void Dta1xxGenStatusRegClrPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	Dta1xxGenSetGenStatusReg (tag, handle, base, DTA1XX_GENSTAT_PERINT);
 }
 
-//-.-.-.-.-.-.-.-.-.-.-.-.- Control1 Registers: Access Functions -.-.-.-.-.-.-.-.-.-.-.-.-
 #define DTA1XX_GEN_CONTROL1_WATCHDOG 0x00000001
 
 static inline int32_t Dta1xxGenGetControl1Reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
@@ -261,7 +226,6 @@ static inline void Dta1xxGenSetControl1Reg (bus_space_tag_t tag, bus_space_handl
 	WRITE_LONG (value, tag, handle, base + DTA1XX_GEN_REG_CONTROL1);
 }
 
-// Toggle watchdog
 static __inline void Dta1xxGenToggleWatchdog (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetControl1Reg (tag, handle, base);
