@@ -180,20 +180,20 @@ static inline int Dta1xxTxCtrlRegGetTxMode (bus_space_tag_t tag, bus_space_handl
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
-	int nTxMode = (value & DTA1XX_TXCTRL_TXMODE);
+	int txmode = (value & DTA1XX_TXCTRL_TXMODE);
 
-	nTxMode |= ((value & DTA1XX_TXCTRL_TXMODE_EXT)>>1);
+	txmode |= ((value & DTA1XX_TXCTRL_TXMODE_EXT)>>1);
 
-	return nTxMode;
+	return txmode;
 }
 
-static inline void Dta1xxTxCtrlRegSetTxMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nTxMode)
+static inline void Dta1xxTxCtrlRegSetTxMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t txmode)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
 	value &= ~(DTA1XX_TXCTRL_TXMODE_EXT | DTA1XX_TXCTRL_TXMODE);
-	value |= nTxMode & 0x3;
-	value |= (nTxMode & 0x4) << 1;
+	value |= txmode & 0x3;
+	value |= (txmode & 0x4) << 1;
 
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
