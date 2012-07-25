@@ -112,12 +112,9 @@ static inline void Dta1xxRxSetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_
 static inline void Dta1xxRxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetGenCtrlReg (tag, handle, base);
-	if (enable == 1)
-	{
+	if (enable == 1) {
 		value |= DTA1XX_RX_GENCTRL_PE;
-	}
-	else
-	{
+	} else {
 		value &= ~DTA1XX_RX_GENCTRL_PE;
 	}
 	Dta1xxRxSetGenCtrlReg (tag, handle, base, value);
@@ -285,12 +282,9 @@ static inline void Dta1xxRxCtrlRegSetOvfIntEn (bus_space_tag_t tag, bus_space_ha
 static inline int Dta1xxRxCtrlRegGetSyncIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0 != (value & DTA1XX_RXCTRL_SYNCINT_EN))
-	{
+	if (0 != (value & DTA1XX_RXCTRL_SYNCINT_EN)) {
 		return 1;
-	}
-	else
-	{
+	} else {
 		return 0;
 	}
 }
@@ -298,12 +292,9 @@ static inline int Dta1xxRxCtrlRegGetSyncIntEn (bus_space_tag_t tag, bus_space_ha
 static inline void Dta1xxRxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=enable)
-	{
+	if (0!=enable) {
 		value |= DTA1XX_RXCTRL_SYNCINT_EN;
-	}
-	else
-	{
+	} else {
 		value &= ~DTA1XX_RXCTRL_SYNCINT_EN;
 	}
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
@@ -312,12 +303,9 @@ static inline void Dta1xxRxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_h
 static inline int Dta1xxRxCtrlRegGetThrIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXCTRL_THRINT_EN))
-	{
+	if (0!=(value & DTA1XX_RXCTRL_THRINT_EN)) {
 		return 1;
-	}
-	else
-	{
+	} else {
 		return 0;
 	}
 }
@@ -325,12 +313,9 @@ static inline int Dta1xxRxCtrlRegGetThrIntEn (bus_space_tag_t tag, bus_space_han
 static inline void Dta1xxRxCtrlRegSetThrIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=enable)
-	{
+	if (0!=enable) {
 		value |= DTA1XX_RXCTRL_THRINT_EN;
-	}
-	else
-	{
+	} else {
 		value &= ~DTA1XX_RXCTRL_THRINT_EN;
 	}
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
@@ -339,12 +324,9 @@ static inline void Dta1xxRxCtrlRegSetThrIntEn (bus_space_tag_t tag, bus_space_ha
 static inline int Dta1xxRxCtrlRegGetRateOvfIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
-	if (0!=(value & DTA1XX_RXCTRL_RATEOVFINT_EN))
-	{
+	if (0!=(value & DTA1XX_RXCTRL_RATEOVFINT_EN)) {
 		return 1;
-	}
-	else
-	{
+	} else {
 		return 0;
 	}
 }
@@ -581,12 +563,9 @@ static inline int Dta1xxRxDiagRegGetLoopBack (bus_space_tag_t tag, bus_space_han
 static inline int Dta1xxRxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetDiagReg (tag, handle, base);
-	if (0!=enable)
-	{
+	if (0!=enable) {
 		value |= DTA1XX_RXDIAG_LOOPBACK;
-	}
-	else
-	{
+	} else {
 		value &= ~DTA1XX_RXDIAG_LOOPBACK;
 	}
 	Dta1xxRxSetDiagReg (tag, handle, base, value);
