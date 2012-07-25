@@ -98,7 +98,8 @@
 
 //=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+ Tx register operations +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=
 
-static inline int Dta1xxTxGetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -107,12 +108,14 @@ static inline int Dta1xxTxGetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t
 	return value;
 }
 
-static inline void Dta1xxTxSetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void
+Dta1xxTxSetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_GENCTRL);
 }
 
-static inline void Dta1xxTxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetGenCtrlReg (tag, handle, base);
 
@@ -124,7 +127,8 @@ static inline void Dta1xxTxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handl
 	Dta1xxTxSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetGenCtrlReg (tag, handle, base);
 
@@ -136,7 +140,8 @@ static inline void Dta1xxTxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_hand
 	Dta1xxTxSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxGenCtrlRegReset (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxTxGenCtrlRegReset (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetGenCtrlReg (tag, handle, base);
 
@@ -145,7 +150,8 @@ static inline void Dta1xxTxGenCtrlRegReset (bus_space_tag_t tag, bus_space_handl
 	Dta1xxTxSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxTxGenCtrlRegGetFirmwareRev (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGenCtrlRegGetFirmwareRev (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetGenCtrlReg (tag, handle, base);
 
@@ -154,7 +160,8 @@ static inline int Dta1xxTxGenCtrlRegGetFirmwareRev (bus_space_tag_t tag, bus_spa
 	return (value >> 8);
 }
 
-static inline int Dta1xxTxGenCtrlRegGetTypeNumber (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGenCtrlRegGetTypeNumber (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetGenCtrlReg (tag, handle, base);
 
@@ -163,7 +170,8 @@ static inline int Dta1xxTxGenCtrlRegGetTypeNumber (bus_space_tag_t tag, bus_spac
 	return (value >> 16);
 }
 
-static inline int Dta1xxTxGetTxCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGetTxCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -172,12 +180,14 @@ static inline int Dta1xxTxGetTxCtrlReg (bus_space_tag_t tag, bus_space_handle_t 
 	return value;
 }
 
-static inline void Dta1xxTxSetTxCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void
+Dta1xxTxSetTxCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_TXCTRL);
 }
 
-static inline int Dta1xxTxCtrlRegGetTxMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxCtrlRegGetTxMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -188,7 +198,8 @@ static inline int Dta1xxTxCtrlRegGetTxMode (bus_space_tag_t tag, bus_space_handl
 	return txmode;
 }
 
-static inline void Dta1xxTxCtrlRegSetTxMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t txmode)
+static inline void
+Dta1xxTxCtrlRegSetTxMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t txmode)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -199,7 +210,8 @@ static inline void Dta1xxTxCtrlRegSetTxMode (bus_space_tag_t tag, bus_space_hand
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxTxCtrlRegGetBurstMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxCtrlRegGetBurstMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -208,7 +220,8 @@ static inline int Dta1xxTxCtrlRegGetBurstMode (bus_space_tag_t tag, bus_space_ha
 	return (value >> 2);
 }
 
-static inline void Dta1xxTxCtrlRegSetBurstMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxCtrlRegSetBurstMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -220,7 +233,8 @@ static inline void Dta1xxTxCtrlRegSetBurstMode (bus_space_tag_t tag, bus_space_h
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxTxCtrlRegGetPckStuff (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxCtrlRegGetPckStuff (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -229,7 +243,8 @@ static inline int Dta1xxTxCtrlRegGetPckStuff (bus_space_tag_t tag, bus_space_han
 	return (value >> 4);
 }
 
-static inline void Dta1xxTxCtrlRegSetPckStuff (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxCtrlRegSetPckStuff (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -241,7 +256,8 @@ static inline void Dta1xxTxCtrlRegSetPckStuff (bus_space_tag_t tag, bus_space_ha
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxTxCtrlRegGetTxCtrl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxCtrlRegGetTxCtrl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -250,7 +266,8 @@ static inline int Dta1xxTxCtrlRegGetTxCtrl (bus_space_tag_t tag, bus_space_handl
 	return (value >> 5);
 }
 
-static inline void Dta1xxTxCtrlRegSetTxCtrl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t txctrl)
+static inline void
+Dta1xxTxCtrlRegSetTxCtrl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t txctrl)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -260,7 +277,8 @@ static inline void Dta1xxTxCtrlRegSetTxCtrl (bus_space_tag_t tag, bus_space_hand
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxTxCtrlRegGetTxDis (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxCtrlRegGetTxDis (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -269,7 +287,8 @@ static inline int Dta1xxTxCtrlRegGetTxDis (bus_space_tag_t tag, bus_space_handle
 	return (value >> 7);
 }
 
-static inline void Dta1xxTxCtrlRegSetTxDis (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t disable)
+static inline void
+Dta1xxTxCtrlRegSetTxDis (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t disable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -281,7 +300,8 @@ static inline void Dta1xxTxCtrlRegSetTxDis (bus_space_tag_t tag, bus_space_handl
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -293,7 +313,8 @@ static inline void Dta1xxTxCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_ha
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetUflIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxCtrlRegSetUflIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -305,7 +326,8 @@ static inline void Dta1xxTxCtrlRegSetUflIntEn (bus_space_tag_t tag, bus_space_ha
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -317,7 +339,8 @@ static inline void Dta1xxTxCtrlRegSetSyncIntEn (bus_space_tag_t tag, bus_space_h
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetShortIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxCtrlRegSetShortIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -329,7 +352,8 @@ static inline void Dta1xxTxCtrlRegSetShortIntEn (bus_space_tag_t tag, bus_space_
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetThrIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxCtrlRegSetThrIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -341,7 +365,8 @@ static inline void Dta1xxTxCtrlRegSetThrIntEn (bus_space_tag_t tag, bus_space_ha
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxTxCtrlRegGetUseExtClk (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxCtrlRegGetUseExtClk (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -350,7 +375,8 @@ static inline int Dta1xxTxCtrlRegGetUseExtClk (bus_space_tag_t tag, bus_space_ha
 	return (value >> 16);
 }
 
-static inline void Dta1xxTxCtrlRegSetUseExtClk (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t use)
+static inline void
+Dta1xxTxCtrlRegSetUseExtClk (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t use)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -362,7 +388,8 @@ static inline void Dta1xxTxCtrlRegSetUseExtClk (bus_space_tag_t tag, bus_space_h
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlRegSetEnaPwr (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxCtrlRegSetEnaPwr (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -374,7 +401,8 @@ static inline void Dta1xxTxCtrlRegSetEnaPwr (bus_space_tag_t tag, bus_space_hand
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxLedControl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t ledctrl)
+static inline void
+Dta1xxTxLedControl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t ledctrl)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -384,7 +412,8 @@ static inline void Dta1xxTxLedControl (bus_space_tag_t tag, bus_space_handle_t h
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxClrFifo (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxTxClrFifo (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -393,7 +422,8 @@ static inline void Dta1xxTxClrFifo (bus_space_tag_t tag, bus_space_handle_t hand
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxChannelReset (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxTxChannelReset (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -402,7 +432,8 @@ static inline void Dta1xxTxChannelReset (bus_space_tag_t tag, bus_space_handle_t
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxTxCtrlSetTxAsiInv (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxCtrlSetTxAsiInv (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
@@ -414,7 +445,8 @@ static inline void Dta1xxTxCtrlSetTxAsiInv (bus_space_tag_t tag, bus_space_handl
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxTxGetTxStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGetTxStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -423,12 +455,14 @@ static inline int Dta1xxTxGetTxStatusReg (bus_space_tag_t tag, bus_space_handle_
 	return value;
 }
 
-static inline void Dta1xxTxSetTxStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void
+Dta1xxTxSetTxStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_TXSTATUS);
 }
 
-static inline int Dta1xxTxStatusRegGetFifoFilled (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxStatusRegGetFifoFilled (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
@@ -438,7 +472,8 @@ static inline int Dta1xxTxStatusRegGetFifoFilled (bus_space_tag_t tag, bus_space
 		return 0;
 }
 
-static inline int Dta1xxTxStatusRegGetSdramSize (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxStatusRegGetSdramSize (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
@@ -447,7 +482,8 @@ static inline int Dta1xxTxStatusRegGetSdramSize (bus_space_tag_t tag, bus_space_
 	return (value << 4);
 }
 
-static inline int Dta1xxTxStatusRegGetPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxStatusRegGetPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
@@ -457,12 +493,14 @@ static inline int Dta1xxTxStatusRegGetPerInt (bus_space_tag_t tag, bus_space_han
 		return 0;
 }
 
-static inline void Dta1xxTxStatusRegClrPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxTxStatusRegClrPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	Dta1xxTxSetTxStatusReg (tag, handle, base, DTA1XX_TXSTAT_PERINT);
 }
 
-static inline int Dta1xxTxStatusRegGetUflInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxStatusRegGetUflInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
@@ -472,12 +510,14 @@ static inline int Dta1xxTxStatusRegGetUflInt (bus_space_tag_t tag, bus_space_han
 		return 0;
 }
 
-static inline void Dta1xxTxStatusRegClrUflInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxTxStatusRegClrUflInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	Dta1xxTxSetTxStatusReg (tag, handle, base, DTA1XX_TXSTAT_UFLINT);
 }
 
-static inline int Dta1xxTxStatusRegGetSyncInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxStatusRegGetSyncInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
@@ -487,12 +527,14 @@ static inline int Dta1xxTxStatusRegGetSyncInt (bus_space_tag_t tag, bus_space_ha
 		return 0;
 }
 
-static inline void Dta1xxTxStatusRegClrSyncInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxTxStatusRegClrSyncInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	Dta1xxTxSetTxStatusReg (tag, handle, base, DTA1XX_TXSTAT_SYNCINT);
 }
 
-static inline int Dta1xxTxStatusRegGetShortInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxStatusRegGetShortInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
@@ -502,12 +544,14 @@ static inline int Dta1xxTxStatusRegGetShortInt (bus_space_tag_t tag, bus_space_h
 		return 0;
 }
 
-static inline void Dta1xxTxStatusRegClrShortInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxTxStatusRegClrShortInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	Dta1xxTxSetTxStatusReg (tag, handle, base, DTA1XX_TXSTAT_SHORTINT);
 }
 
-static inline int Dta1xxTxStatusRegGetThrInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxStatusRegGetThrInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetTxStatusReg (tag, handle, base);
 
@@ -517,12 +561,14 @@ static inline int Dta1xxTxStatusRegGetThrInt (bus_space_tag_t tag, bus_space_han
 		return 0;
 }
 
-static inline void Dta1xxTxStatusRegClrThrInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxTxStatusRegClrThrInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	Dta1xxTxSetTxStatusReg (tag, handle, base, DTA1XX_TXSTAT_THRINT);
 }
 
-static inline int Dta1xxTxGetTxClockReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGetTxClockReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -531,12 +577,14 @@ static inline int Dta1xxTxGetTxClockReg (bus_space_tag_t tag, bus_space_handle_t
 	return value;
 }
 
-static inline void Dta1xxTxSetTxClockReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void
+Dta1xxTxSetTxClockReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_TXCLOCK);
 }
 
-static inline int Dta1xxTxGetClkCountReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGetClkCountReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -545,7 +593,8 @@ static inline int Dta1xxTxGetClkCountReg (bus_space_tag_t tag, bus_space_handle_
 	return value;
 }
 
-static inline int Dta1xxTxGetFifoSizeReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGetFifoSizeReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -554,12 +603,14 @@ static inline int Dta1xxTxGetFifoSizeReg (bus_space_tag_t tag, bus_space_handle_
 	return value;
 }
 
-static inline void Dta1xxTxSetFifoSizeReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void
+Dta1xxTxSetFifoSizeReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_FIFOSIZE);
 }
 
-static inline int Dta1xxTxGetFifoLoadReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGetFifoLoadReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -568,7 +619,8 @@ static inline int Dta1xxTxGetFifoLoadReg (bus_space_tag_t tag, bus_space_handle_
 	return value;
 }
 
-static inline int Dta1xxTxGetDiagReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGetDiagReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -577,12 +629,14 @@ static inline int Dta1xxTxGetDiagReg (bus_space_tag_t tag, bus_space_handle_t ha
 	return value;
 }
 
-static inline void Dta1xxTxSetDiagReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void
+Dta1xxTxSetDiagReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_DIAG);
 }
 
-static inline int Dta1xxTxDiagRegGetSfData (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxDiagRegGetSfData (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
@@ -591,7 +645,8 @@ static inline int Dta1xxTxDiagRegGetSfData (bus_space_tag_t tag, bus_space_handl
 	return value;
 }
 
-static inline int Dta1xxTxDiagRegGetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxDiagRegGetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
@@ -600,7 +655,8 @@ static inline int Dta1xxTxDiagRegGetLoopBack (bus_space_tag_t tag, bus_space_han
 	return (value >> 8);
 }
 
-static inline int Dta1xxTxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline int
+Dta1xxTxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
@@ -614,7 +670,8 @@ static inline int Dta1xxTxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_han
 	return 0;
 }
 
-static inline int Dta1xxTxDiagRegGetSfDtValid (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxDiagRegGetSfDtValid (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
@@ -624,7 +681,8 @@ static inline int Dta1xxTxDiagRegGetSfDtValid (bus_space_tag_t tag, bus_space_ha
 		return 0;
 }
 
-static inline int Dta1xxTxDiagRegGetDmaReq (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxDiagRegGetDmaReq (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
@@ -634,7 +692,8 @@ static inline int Dta1xxTxDiagRegGetDmaReq (bus_space_tag_t tag, bus_space_handl
 		return 0;
 }
 
-static inline int Dta1xxTxDiagRegGetBfCanBurst (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxDiagRegGetBfCanBurst (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
@@ -644,7 +703,8 @@ static inline int Dta1xxTxDiagRegGetBfCanBurst (bus_space_tag_t tag, bus_space_h
 		return 0;
 }
 
-static inline int Dta1xxTxDiagRegGetSfCanBurst (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxDiagRegGetSfCanBurst (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
@@ -654,7 +714,8 @@ static inline int Dta1xxTxDiagRegGetSfCanBurst (bus_space_tag_t tag, bus_space_h
 		return 0;
 }
 
-static inline int Dta1xxTxDiagRegGetSfLoad (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxDiagRegGetSfLoad (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
@@ -663,7 +724,8 @@ static inline int Dta1xxTxDiagRegGetSfLoad (bus_space_tag_t tag, bus_space_handl
 	return (value >> 14);
 }
 
-static inline int Dta1xxTxDiagRegGetBfLoad (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxDiagRegGetBfLoad (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
 
@@ -672,7 +734,8 @@ static inline int Dta1xxTxDiagRegGetBfLoad (bus_space_tag_t tag, bus_space_handl
 	return (value >> 24);
 }
 
-static inline int Dta1xxTxGetLoopBackDataReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGetLoopBackDataReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -681,7 +744,8 @@ static inline int Dta1xxTxGetLoopBackDataReg (bus_space_tag_t tag, bus_space_han
 	return value;
 }
 
-static inline int Dta1xxTxGetThreshCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxGetThreshCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -690,22 +754,26 @@ static inline int Dta1xxTxGetThreshCtrlReg (bus_space_tag_t tag, bus_space_handl
 	return value;
 }
 
-static inline void Dta1xxTxSetThreshCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void
+Dta1xxTxSetThreshCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_THRESHCTRL);
 }
 
-static inline void Dta1xxTxSetFifoDataReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void
+Dta1xxTxSetFifoDataReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_FIFO_FIRST);
 }
 
-static inline int Dta1xxTxCtrlRegGetOutputEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxTxCtrlRegGetOutputEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	return (Dta1xxTxGetTxCtrlReg (tag, handle, base) & DTA1XX_TXCTRL_OUT_EN) ? 1 : 0;
 }
 
-static inline void Dta1xxTxCtrlRegSetOutputEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxTxCtrlRegSetOutputEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 

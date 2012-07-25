@@ -75,7 +75,8 @@
 
 //+=+=+=+=+=+=+=+=+=+=+=+=+=+=+ General register operations +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=
 
-static inline int Dta1xxGenGetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxGenGetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -84,12 +85,14 @@ static inline int Dta1xxGenGetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_
 	return value;
 }
 
-static inline void Dta1xxGenSetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void
+Dta1xxGenSetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_GEN_REG_GENCTRL);
 }
 
-static inline void Dta1xxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
@@ -101,7 +104,8 @@ static inline void Dta1xxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxGenCtrlRegGetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxGenCtrlRegGetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
@@ -111,7 +115,8 @@ static inline int Dta1xxGenCtrlRegGetPE (bus_space_tag_t tag, bus_space_handle_t
 		return 0;
 }
 
-static inline void Dta1xxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
@@ -123,7 +128,8 @@ static inline void Dta1xxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxGenCtrlRegGetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxGenCtrlRegGetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
@@ -133,7 +139,8 @@ static inline int Dta1xxGenCtrlRegGetPRE (bus_space_tag_t tag, bus_space_handle_
 		return 0;
 }
 
-static inline void Dta1xxGenCtrlRegReset (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxGenCtrlRegReset (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
@@ -142,7 +149,8 @@ static inline void Dta1xxGenCtrlRegReset (bus_space_tag_t tag, bus_space_handle_
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxGenCtrlRegGetFirmwareRev (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxGenCtrlRegGetFirmwareRev (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
@@ -151,7 +159,8 @@ static inline int Dta1xxGenCtrlRegGetFirmwareRev (bus_space_tag_t tag, bus_space
 	return ((value >> 8) & 0xFF);
 }
 
-static inline int Dta1xxGenCtrlRegGetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxGenCtrlRegGetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
@@ -161,7 +170,8 @@ static inline int Dta1xxGenCtrlRegGetPerIntEn (bus_space_tag_t tag, bus_space_ha
 		return 0;
 }
 
-static inline void Dta1xxGenCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
+static inline void
+Dta1xxGenCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
@@ -173,14 +183,16 @@ static inline void Dta1xxGenCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_h
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxGenCtrlRegGetPerIntVal (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxGenCtrlRegGetPerIntVal (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
 	return (value & DTA1XX_GENCTRL_PERINT_VAL) >> 5;
 }
 
-static inline void Dta1xxGenCtrlRegSetPerIntVal (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t intval)
+static inline void
+Dta1xxGenCtrlRegSetPerIntVal (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t intval)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
@@ -190,7 +202,8 @@ static inline void Dta1xxGenCtrlRegSetPerIntVal (bus_space_tag_t tag, bus_space_
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline void Dta1xxGenLedControl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t ledctrl)
+static inline void
+Dta1xxGenLedControl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t ledctrl)
 {
 	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
 
@@ -200,7 +213,8 @@ static inline void Dta1xxGenLedControl (bus_space_tag_t tag, bus_space_handle_t 
 	Dta1xxGenSetGenCtrlReg (tag, handle, base, value);
 }
 
-static inline int Dta1xxGenGetGenStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxGenGetGenStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -209,12 +223,14 @@ static inline int Dta1xxGenGetGenStatusReg (bus_space_tag_t tag, bus_space_handl
 	return value;
 }
 
-static inline void Dta1xxGenSetGenStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void
+Dta1xxGenSetGenStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_GEN_REG_GENSTATUS);
 }
 
-static inline int Dta1xxGenStatusRegGetPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int
+Dta1xxGenStatusRegGetPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetGenStatusReg (tag, handle, base);
 
@@ -224,14 +240,16 @@ static inline int Dta1xxGenStatusRegGetPerInt (bus_space_tag_t tag, bus_space_ha
 		return 0;
 }
 
-static inline void Dta1xxGenStatusRegClrPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxGenStatusRegClrPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	Dta1xxGenSetGenStatusReg (tag, handle, base, DTA1XX_GENSTAT_PERINT);
 }
 
 #define DTA1XX_GEN_CONTROL1_WATCHDOG 0x00000001
 
-static inline int32_t Dta1xxGenGetControl1Reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline int32_t
+Dta1xxGenGetControl1Reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value;
 
@@ -240,12 +258,14 @@ static inline int32_t Dta1xxGenGetControl1Reg (bus_space_tag_t tag, bus_space_ha
 	return value;
 }
 
-static inline void Dta1xxGenSetControl1Reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
+static inline void
+Dta1xxGenSetControl1Reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
 	WRITE_LONG (value, tag, handle, base + DTA1XX_GEN_REG_CONTROL1);
 }
 
-static inline void Dta1xxGenToggleWatchdog (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxGenToggleWatchdog (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxGenGetControl1Reg (tag, handle, base);
 
@@ -257,7 +277,8 @@ static inline void Dta1xxGenToggleWatchdog (bus_space_tag_t tag, bus_space_handl
 	Dta1xxGenSetControl1Reg (tag, handle, base, value);
 }
 
-static inline void Dta1xxGenPulseWatchdog (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
+static inline void
+Dta1xxGenPulseWatchdog (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	/* Pulse watchdog 1->0->1 or 0->1->0 */
 
@@ -271,7 +292,8 @@ static inline void Dta1xxGenPulseWatchdog (bus_space_tag_t tag, bus_space_handle
 	Dta1xxGenSetControl1Reg (tag, handle, base, value);
 }
 
-static inline void Dta1xxDmaTimeOutSet (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, unsigned int value)
+static inline void
+Dta1xxDmaTimeOutSet (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, unsigned int value)
 {
 	/* value = in 2^14 clock cycle increments */
 
