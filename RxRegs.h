@@ -190,11 +190,11 @@ static inline int Dta1xxRxCtrlRegGetAsiInv (bus_space_tag_t tag, bus_space_handl
 	return (value>>2);
 }
 
-static inline void Dta1xxRxCtrlRegSetAsiInv (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nInvCtrl)
+static inline void Dta1xxRxCtrlRegSetAsiInv (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t invert)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 	value &= ~DTA1XX_RXCTRL_ASIINV;
-	value |= ((nInvCtrl&0x3)<<2);
+	value |= ((invert&0x3)<<2);
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
 }
 
