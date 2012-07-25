@@ -239,10 +239,10 @@ static inline int Dta1xxTxCtrlRegGetTxDis (bus_space_tag_t tag, bus_space_handle
 }
 
 
-static inline void Dta1xxTxCtrlRegSetTxDis (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nDis)
+static inline void Dta1xxTxCtrlRegSetTxDis (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t disable)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
-	if (nDis==1) {
+	if (disable==1) {
 		value |= DTA1XX_TXCTRL_TXDIS;
 	} else {
 		value &= ~DTA1XX_TXCTRL_TXDIS;
