@@ -1,7 +1,8 @@
 freebsd-dektec
 ==============
 
-A FreeBSD driver for some [DekTec](http://dektec.com/) ASI boards (DTA-140, DTA-145, DTA-2145).
+A FreeBSD driver for some [DekTec](http://dektec.com/) ASI boards (DTA-140,
+DTA-145, DTA-2145).
 
 - dektec.c - the actual device driver code
 - dektec.h - lots of IOCTL codes used in the driver
@@ -73,7 +74,8 @@ Bugs / gotchas
 
 - You _might_ have noticed that there's no documentation.
 
-- Lots of constants may be unused, but you'd better keep them for future use.
+- Lots of constants may be unused, but you'd better keep them for future
+  use.
 
 Todo
 ====
@@ -88,9 +90,13 @@ Todo
   the DTA-145. Right now it is hardcoded as input.
 
 - Add a few sysctl values to set the default parameters. This could be used
-  to make streams accessible to shell scripts / pipes and to use netcat or ssh as
-  a transport.
+  to make streams accessible to shell scripts / pipes and to use netcat or
+  ssh as a transport.
 
 - Add support for 208-byte packets.
 
 - Do something useful with the led, possibly from userland.
+
+<!-- Local Variables: -->
+<!-- fill-column: 75 -->
+<!-- End: -->
