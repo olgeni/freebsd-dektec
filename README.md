@@ -72,6 +72,8 @@ Bugs / gotchas
 
 - You _might_ have noticed that there's no documentation.
 
+- Lots of constants may be unused, but you'd better keep them for future use.
+
 Todo
 ====
 
