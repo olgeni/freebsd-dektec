@@ -21,14 +21,14 @@ busdma(9) and bus_space(9)).
 Pretty much everything happens in dektec.c. The driver is not compatible
 with DekTek's DTAPI but it supports a read/write interface with polling.
 
-To understand what is going on you will need at least the following:
+To understand what is going on you will need at least some of the following:
 
 - Some understanding of
   [ASI](http://en.wikipedia.org/wiki/Asynchronous_serial_interface) and
   [MPEG transport streams](http://en.wikipedia.org/wiki/MPEG_transport_stream).
 
-- A PLX 9056 data sheet, for everything related to DMA. Newer boards use an
-  FPGA with the same interface.
+- A PCI 9056BA Data Book, for everything related to DMA. Newer boards use
+  an FPGA with the same interface.
 
 - A copy of the original busdma paper:
   [A Machine-Independent DMA Framework for NetBSD](http://www.netbsd.org/docs/kernel/bus_dma.pdf).
@@ -39,6 +39,9 @@ To understand what is going on you will need at least the following:
   the value of register base addresses, etc.
 
 Bonus items:
+
+- A document titled "DVB/ASI Input+Output Adapter for PCI Bus" from DekTec,
+  which will provide a broad description of the DTA-140 operations.
 
 - A copy of ISO/IEC 13818 Part 1 could help when developing userland
   software.
