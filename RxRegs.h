@@ -428,7 +428,6 @@ static inline int Dta1xxRxStatusRegGetSdramSize (bus_space_tag_t tag, bus_space_
 	return (value>>4);
 }
 
-
 static inline int Dta1xxRxStatusRegGetPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
 	int32_t value = Dta1xxRxGetRxStatusReg (tag, handle, base);
