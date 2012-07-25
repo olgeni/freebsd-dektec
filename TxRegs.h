@@ -349,11 +349,11 @@ static inline int Dta1xxTxCtrlRegGetUseExtClk (bus_space_tag_t tag, bus_space_ha
 	return (value >> 16);
 }
 
-static inline void Dta1xxTxCtrlRegSetUseExtClk (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nUse)
+static inline void Dta1xxTxCtrlRegSetUseExtClk (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t use)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
-	if (1==nUse)
+	if (1==use)
 		value |= DTA1XX_TXCTRL_USE_EXTCLOCK;
 	else
 		value &= ~DTA1XX_TXCTRL_USE_EXTCLOCK;
