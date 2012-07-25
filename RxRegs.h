@@ -198,7 +198,7 @@ Dta1xxRxCtrlRegGetRxMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_
 	return value;
 }
 
-static inline int
+static inline void
 Dta1xxRxCtrlRegSetRxMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t mode)
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
@@ -207,8 +207,6 @@ Dta1xxRxCtrlRegSetRxMode (bus_space_tag_t tag, bus_space_handle_t handle, int32_
 	value |= (mode & 0x3);
 
 	Dta1xxRxSetRxCtrlReg (tag, handle, base, value);
-
-	return 0;
 }
 
 static inline int
@@ -615,7 +613,7 @@ Dta1xxRxDiagRegGetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int3
 	return (value >> 8);
 }
 
-static inline int
+static inline void
 Dta1xxRxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxRxGetDiagReg (tag, handle, base);
@@ -626,8 +624,6 @@ Dta1xxRxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int3
 		value &= ~DTA1XX_RXDIAG_LOOPBACK;
 
 	Dta1xxRxSetDiagReg (tag, handle, base, value);
-
-	return 0;
 }
 
 static inline int

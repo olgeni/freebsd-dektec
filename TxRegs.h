@@ -637,7 +637,7 @@ Dta1xxTxDiagRegGetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int3
 	return (value >> 8);
 }
 
-static inline int
+static inline void
 Dta1xxTxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t enable)
 {
 	int32_t value = Dta1xxTxGetDiagReg (tag, handle, base);
@@ -648,8 +648,6 @@ Dta1xxTxDiagRegSetLoopBack (bus_space_tag_t tag, bus_space_handle_t handle, int3
 		value &= ~DTA1XX_TXDIAG_LOOPBACK;
 
 	Dta1xxTxSetDiagReg (tag, handle, base, value);
-
-	return 0;
 }
 
 static inline int
