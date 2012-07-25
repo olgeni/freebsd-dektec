@@ -1,3 +1,5 @@
+/* -*- c-file-style: "bsd"; indent-tabs-mode: t; -*- */
+
 //#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#* Dta1xxCodes.h *#*#*#*#*#*#*#*# (C) 2000-2003 DEKTEC
 
 //-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- License -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
@@ -8,7 +10,7 @@
 
 //.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Change History -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 //      MG      2003.06.30      Added definitions for reception mode store MP2 and for timestamping
-//      MG      21-10-2002      Created 
+//      MG      21-10-2002      Created
 
 #ifndef __DTA1XXCODES_H
 #define __DTA1XXCODES_H

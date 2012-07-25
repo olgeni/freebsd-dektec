@@ -1,3 +1,5 @@
+/* -*- c-file-style: "bsd"; indent-tabs-mode: t; -*- */
+
 //#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*# Dta1xxRegs.h #*#*#*#*#*#*#*#* (C) 2000-2003 DEKTEC
 //
 
@@ -8,7 +10,7 @@
 //
 
 //.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Change History -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
-//      MG      21-10-2002      Created 
+//      MG      21-10-2002      Created
 
 #ifndef __DTA1XX_REGS_H
 #define __DTA1XX_REGS_H
