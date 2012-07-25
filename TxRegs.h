@@ -249,12 +249,12 @@ static inline int Dta1xxTxCtrlRegGetTxCtrl (bus_space_tag_t tag, bus_space_handl
 	return (value>>5);
 }
 
-static inline void Dta1xxTxCtrlRegSetTxCtrl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t nTxCtrl)
+static inline void Dta1xxTxCtrlRegSetTxCtrl (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t txctrl)
 {
 	int32_t value = Dta1xxTxGetTxCtrlReg (tag, handle, base);
 
 	value &= ~DTA1XX_TXCTRL_TXCTRL;
-	value |= (nTxCtrl & 0x3) << 5 ;
+	value |= (txctrl & 0x3) << 5 ;
 
 	Dta1xxTxSetTxCtrlReg (tag, handle, base, value);
 }
