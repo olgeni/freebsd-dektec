@@ -9,6 +9,7 @@
 //
 
 //.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Change History -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
+//      olgeni  11-02-2004      Hijacked to FreeBSD :)
 //      MG      2003.04.23      Added functions for writing to PE and PRE bit-field
 //      MG      16-01-2003      Correct definitions of some DTA1XX_GENCTRL_ constants
 //      MG      25-11-2002      Created

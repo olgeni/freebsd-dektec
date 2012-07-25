@@ -9,6 +9,7 @@
 //
 
 //.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Change History -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
+//      olgeni  11-02-2004      Hijacked to FreeBSD :)
 //      MG      2003.04.23      Added PLX9056 specific definitions (e.g. PCI9056_CNTRL_EEDO_INPEN)
 //      MG      21-10-2002      Created
 

@@ -9,6 +9,7 @@
 //
 
 //.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Change History -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
+//      olgeni  11-02-2004      Hijacked to FreeBSD :)
 //      MG      2003.06.30      Added definitions for reception mode store MP2 and for timestamping
 //      MG      21-10-2002      Created
 
