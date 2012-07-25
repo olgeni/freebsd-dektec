@@ -73,6 +73,10 @@
 #define DTA1XX_DMA_PCIUPADDR_REG 0x00C
 #define DTA1XX_DMA_TIMEOUT_REG   0x014
 
+// Watchdog control
+
+#define DTA1XX_GEN_CONTROL1_WATCHDOG 0x00000001
+
 //+=+=+=+=+=+=+=+=+=+=+=+=+=+=+ General register operations +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=
 
 static inline int
@@ -245,8 +249,6 @@ Dta1xxGenStatusRegClrPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int
 {
 	Dta1xxGenSetGenStatusReg (tag, handle, base, DTA1XX_GENSTAT_PERINT);
 }
-
-#define DTA1XX_GEN_CONTROL1_WATCHDOG 0x00000001
 
 static inline int32_t
 Dta1xxGenGetControl1Reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
