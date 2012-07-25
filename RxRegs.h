@@ -333,7 +333,7 @@ Dta1xxRxCtrlRegGetSyncIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int
 {
 	int32_t value = Dta1xxRxGetRxCtrlReg (tag, handle, base);
 
-	if (0 != (value & DTA1XX_RXCTRL_SYNCINT_EN))
+	if (value & DTA1XX_RXCTRL_SYNCINT_EN)
 		return 1;
 	else
 		return 0;
