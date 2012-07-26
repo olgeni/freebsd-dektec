@@ -677,7 +677,7 @@ dta1xx_tx_set_fifo_data_reg (bus_space_tag_t tag, bus_space_handle_t handle, int
 static inline int
 dta1xx_tx_ctrl_reg_get_output_en (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return (dta1xx_tx_get_tx_ctrl_reg (tag, handle, base) & DTA1XX_TXCTRL_OUT_EN) ? 1 : 0;
+	return (dta1xx_tx_get_tx_ctrl_reg (tag, handle, base) & DTA1XX_TXCTRL_OUT_EN) != 0;
 }
 
 static inline void
