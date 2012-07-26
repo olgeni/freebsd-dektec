@@ -180,7 +180,8 @@ struct dektec_sc {
 	struct plx_dma_buffer	tx_buffer;
 	struct plx_dma_buffer	rx_buffer;
 
-	int			tx_watermark, rx_watermark;
+	int			tx_watermark;
+	int			rx_watermark;
 
 	struct selinfo		selinfo;
 	struct mtx		mutex; /* FIXME actually use the mutex */
