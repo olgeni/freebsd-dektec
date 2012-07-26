@@ -198,13 +198,11 @@ get_device_model (device_t dev)
 	if (vendor_id == PLX_PCI_VENDOR_ID && device_id == PLX_PCI_DEVICE_ID)
 		return BOARD_MODEL_140;
 
-	if (vendor_id == DTA1XX_PCI_VENDOR_ID) {
-		if (device_id == DTA145_PCI_DEVICE_ID)
-			return BOARD_MODEL_145;
+	if (vendor_id == DTA1XX_PCI_VENDOR_ID && device_id == DTA145_PCI_DEVICE_ID)
+		return BOARD_MODEL_145;
 
-		if (device_id == DTA2145_PCI_DEVICE_ID)
-			return BOARD_MODEL_2145;
-	}
+	if (vendor_id == DTA1XX_PCI_VENDOR_ID && device_id == DTA2145_PCI_DEVICE_ID)
+		return BOARD_MODEL_2145;
 
 	return 0;
 }
