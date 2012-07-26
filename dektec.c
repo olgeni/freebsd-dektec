@@ -450,15 +450,15 @@ dektec_probe (device_t dev)
 {
 	switch (get_device_model (dev)) {
 	case BOARD_MODEL_140:
-		device_set_desc (dev, "DekTek DTA-140");
+		device_set_desc (dev, "DekTec DTA-140");
 		return BUS_PROBE_SPECIFIC;
 
 	case BOARD_MODEL_145:
-		device_set_desc (dev, "DekTek DTA-145");
+		device_set_desc (dev, "DekTec DTA-145");
 		return BUS_PROBE_SPECIFIC;
 
 	case BOARD_MODEL_2145:
-		device_set_desc (dev, "DekTek DTA-2145");
+		device_set_desc (dev, "DekTec DTA-2145");
 		return BUS_PROBE_SPECIFIC;
 
 	default:

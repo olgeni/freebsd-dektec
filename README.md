@@ -6,19 +6,19 @@ DTA-145, DTA-2145).
 
 - dektec.c - the actual device driver code
 - dektec.h - lots of IOCTL codes used in the driver
-- Dta1xxCodes.h - codes and constants from DekTek
+- Dta1xxCodes.h - codes and constants from DekTec
 - Dta1xxRegs.h - use to include GenRegs.h, RxRegs.h, TxRegs.h.
-- GenRegs.h - definitions related to the generic control register, from DekTek, adapted to FreeBSD
-- RxRegs.h - definitions related to the RX control register, from DekTek, adapted to FreeBSD
-- TxRegs.h - definitions related to the TX control register, from DekTek, adapted to FreeBSD
+- GenRegs.h - definitions related to the generic control register, from DekTec, adapted to FreeBSD
+- RxRegs.h - definitions related to the RX control register, from DekTec, adapted to FreeBSD
+- TxRegs.h - definitions related to the TX control register, from DekTec, adapted to FreeBSD
 - Plx905x.h - constants for the PLX 905x PCI controller chip (9056 in our case).
 
 Basically, the .h files are the same as the headers distributed with the
-DekTek driver for Linux, minus a few adaptations related to FreeBSD (mostly
+DekTec driver for Linux, minus a few adaptations related to FreeBSD (mostly
 busdma(9) and bus_space(9)).
 
 Pretty much everything happens in dektec.c. The driver is not compatible
-with DekTek's DTAPI but it supports a read/write interface with polling.
+with DekTec's DTAPI but it supports a read/write interface with polling.
 
 To understand what is going on you will need at least some of the following:
 
@@ -33,7 +33,7 @@ To understand what is going on you will need at least some of the following:
   [A Machine-Independent DMA Framework for NetBSD](http://www.netbsd.org/docs/kernel/bus_dma.pdf).
   Especially check bus\_dmamap\_sync.
 
-- Boards register maps from DekTek, or the Linux
+- Boards register maps from DekTec, or the Linux
   [driver source code](http://dektec.com/Downloads/Drivers.asp), to check
   the value of register base addresses, etc.
 
