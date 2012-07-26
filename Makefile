@@ -6,7 +6,6 @@ SRCS=	dektec.c \
 	Dta1xxCodes.h \
 	Dta1xxRegs.h \
 	GenRegs.h \
-	Helpers.h \
 	Plx905x.h \
 	RxRegs.h \
 	TxRegs.h \
