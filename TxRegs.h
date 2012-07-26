@@ -107,7 +107,7 @@ dta1xx_tx_get_gen_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int3
 static inline void
 dta1xx_tx_set_gen_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_GENCTRL);
+	bus_space_write_4 (tag, handle, base + DTA1XX_TX_REG_GENCTRL, value);
 }
 
 static inline void
@@ -175,7 +175,7 @@ dta1xx_tx_get_tx_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32
 static inline void
 dta1xx_tx_set_tx_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_TXCTRL);
+	bus_space_write_4 (tag, handle, base + DTA1XX_TX_REG_TXCTRL, value);
 }
 
 static inline int
@@ -446,7 +446,7 @@ dta1xx_tx_get_tx_status_reg (bus_space_tag_t tag, bus_space_handle_t handle, int
 static inline void
 dta1xx_tx_set_tx_status_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_TXSTATUS);
+	bus_space_write_4 (tag, handle, base + DTA1XX_TX_REG_TXSTATUS, value);
 }
 
 static inline int
@@ -534,7 +534,7 @@ dta1xx_tx_get_tx_clock_reg (bus_space_tag_t tag, bus_space_handle_t handle, int3
 static inline void
 dta1xx_tx_set_tx_clock_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_TXCLOCK);
+	bus_space_write_4 (tag, handle, base + DTA1XX_TX_REG_TXCLOCK, value);
 }
 
 static inline int
@@ -552,7 +552,7 @@ dta1xx_tx_get_fifo_size_reg (bus_space_tag_t tag, bus_space_handle_t handle, int
 static inline void
 dta1xx_tx_set_fifo_size_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_FIFOSIZE);
+	bus_space_write_4 (tag, handle, base + DTA1XX_TX_REG_FIFOSIZE, value);
 }
 
 static inline int
@@ -570,7 +570,7 @@ dta1xx_tx_get_diag_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t 
 static inline void
 dta1xx_tx_set_diag_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_DIAG);
+	bus_space_write_4 (tag, handle, base + DTA1XX_TX_REG_DIAG, value);
 }
 
 static inline int
@@ -665,13 +665,13 @@ dta1xx_tx_get_thresh_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, i
 static inline void
 dta1xx_tx_set_thresh_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_THRESHCTRL);
+	bus_space_write_4 (tag, handle, base + DTA1XX_TX_REG_THRESHCTRL, value);
 }
 
 static inline void
 dta1xx_tx_set_fifo_data_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_TX_REG_FIFO_FIRST);
+	bus_space_write_4 (tag, handle, base + DTA1XX_TX_REG_FIFO_FIRST, value);
 }
 
 static inline int

@@ -109,7 +109,7 @@ dta1xx_rx_get_gen_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int3
 static inline void
 dta1xx_rx_set_gen_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, DTA1XX_RX_REG_GENCTRL);
+	bus_space_write_4 (tag, handle, DTA1XX_RX_REG_GENCTRL, value);
 }
 
 static inline void
@@ -177,7 +177,7 @@ dta1xx_rx_get_rx_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32
 static inline void
 dta1xx_rx_set_rx_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_RX_REG_RXCTRL);
+	bus_space_write_4 (tag, handle, base + DTA1XX_RX_REG_RXCTRL, value);
 }
 
 static inline int
@@ -414,7 +414,7 @@ dta1xx_rx_get_rx_status_reg (bus_space_tag_t tag, bus_space_handle_t handle, int
 static inline void
 dta1xx_rx_set_rx_status_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_RX_REG_RXSTATUS);
+	bus_space_write_4 (tag, handle, base + DTA1XX_RX_REG_RXSTATUS, value);
 }
 
 static inline int
@@ -546,7 +546,7 @@ dta1xx_rx_get_diag_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t 
 static inline void
 dta1xx_rx_set_diag_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_RX_REG_DIAG);
+	bus_space_write_4 (tag, handle, base + DTA1XX_RX_REG_DIAG, value);
 }
 
 static inline int
@@ -587,7 +587,7 @@ dta1xx_rx_diag_reg_get_sd_full (bus_space_tag_t tag, bus_space_handle_t handle, 
 static inline void
 dta1xx_rx_set_loop_back_data (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG ((value & 0xFF), tag, handle, base + DTA1XX_RX_REG_LOOPBKDATA);
+	bus_space_write_4 (tag, handle, base + DTA1XX_RX_REG_LOOPBKDATA, (value & 0xFF));
 }
 
 static inline int
@@ -599,7 +599,7 @@ dta1xx_rx_get_thresh_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, i
 static inline void
 dta1xx_rx_set_thresh_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_RX_REG_THRESHCTRL);
+	bus_space_write_4 (tag, handle, base + DTA1XX_RX_REG_THRESHCTRL, value);
 }
 
 static inline int

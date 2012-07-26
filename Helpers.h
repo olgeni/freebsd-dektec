@@ -21,9 +21,6 @@
 
 // PCI write/read helpers
 
-#define WRITE_BYTE(val, tag, handle, offset) bus_space_write_1 (tag, handle, offset, val)
-#define WRITE_LONG(val, tag, handle, offset) bus_space_write_4 (tag, handle, offset, val)
-
 //-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.- Data declaration -.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
 
 #endif // __HELPERS_H

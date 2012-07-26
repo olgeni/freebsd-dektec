@@ -88,7 +88,7 @@ dta1xx_gen_get_gen_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int
 static inline void
 dta1xx_gen_set_gen_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_GEN_REG_GENCTRL);
+	bus_space_write_4 (tag, handle, base + DTA1XX_GEN_REG_GENCTRL, value);
 }
 
 static inline void
@@ -205,7 +205,7 @@ dta1xx_gen_get_gen_status_reg (bus_space_tag_t tag, bus_space_handle_t handle, i
 static inline void
 dta1xx_gen_set_gen_status_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_GEN_REG_GENSTATUS);
+	bus_space_write_4 (tag, handle, base + DTA1XX_GEN_REG_GENSTATUS, value);
 }
 
 static inline int
@@ -229,7 +229,7 @@ dta1xx_gen_get_control1_reg (bus_space_tag_t tag, bus_space_handle_t handle, int
 static inline void
 dta1xx_gen_set_control1_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base, int32_t value)
 {
-	WRITE_LONG (value, tag, handle, base + DTA1XX_GEN_REG_CONTROL1);
+	bus_space_write_4 (tag, handle, base + DTA1XX_GEN_REG_CONTROL1, value);
 }
 
 static inline void
@@ -272,5 +272,5 @@ dta1xx_dma_timeout_set (bus_space_tag_t tag, bus_space_handle_t handle, int32_t 
 	if (enable)
 		value = value | (1 << 8);
 
-	WRITE_LONG (value, tag, handle, base + DTA1XX_DMA_TIMEOUT_REG);
+	bus_space_write_4 (tag, handle, base + DTA1XX_DMA_TIMEOUT_REG, value);
 }

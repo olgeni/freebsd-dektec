@@ -398,33 +398,31 @@ reset_plx (device_t dev)
 
 	uint32_t cntrl = bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
 
-	WRITE_LONG (cntrl | PCI905X_CNTRL_RESET, sc->plx_base_bt, sc->plx_base_bh,
-		    PCI905X_EEPROM_CTRL_STAT);
+	bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT,
+			   cntrl | PCI905X_CNTRL_RESET);
 	bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
 	DELAY (100L);
 
-	WRITE_LONG (cntrl, sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
+	bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT, cntrl);
 	bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
 	DELAY (100L);
 
-	WRITE_LONG (cntrl | PCI905X_CNTRL_RECONFIG, sc->plx_base_bt, sc->plx_base_bh,
-		    PCI905X_EEPROM_CTRL_STAT);
+	bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT,
+			   cntrl | PCI905X_CNTRL_RECONFIG);
 	bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
 	DELAY (6000); /* 6 Kus */
 
-	WRITE_LONG (cntrl, sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
+	bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT, cntrl);
 	bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
 
 	/* FIXME remove/refactor */
 	dta1xx_gen_ctrl_reg_reset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
 	DELAY (6000); /* 6 Kus */
 
-	WRITE_BYTE (PCI905X_DMACSR_CLEARINT, sc->plx_base_bt, sc->plx_base_bh,
-		    PCI905X_DMA0_COMMAND_STAT);
+	bus_space_write_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_COMMAND_STAT, PCI905X_DMACSR_CLEARINT);
 	bus_space_read_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_COMMAND_STAT);
 
-	WRITE_BYTE (PCI905X_DMACSR_CLEARINT, sc->plx_base_bt, sc->plx_base_bh,
-		    PCI905X_DMA1_COMMAND_STAT);
+	bus_space_write_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT, PCI905X_DMACSR_CLEARINT);
 	bus_space_read_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT);
 }
 
@@ -436,35 +434,35 @@ enable_plx (device_t dev)
 {
 	struct dektec_sc *sc = (struct dektec_sc *) device_get_softc (dev);
 
-	WRITE_LONG (PCI905X_INTCSR_PCI_INTEN   |
-		    PCI905X_INTCSR_LOCAL_INTEN |
-		    PCI905X_INTCSR_DMA0_INTEN  |
-		    PCI905X_INTCSR_DMA1_INTEN,
-		    sc->plx_base_bt, sc->plx_base_bh, PCI905X_INT_CTRL_STAT);
+	bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_INT_CTRL_STAT,
+			   PCI905X_INTCSR_PCI_INTEN   |
+			   PCI905X_INTCSR_LOCAL_INTEN |
+			   PCI905X_INTCSR_DMA0_INTEN  |
+			   PCI905X_INTCSR_DMA1_INTEN);
 
 	bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_INT_CTRL_STAT);
 
-	WRITE_LONG (PCI905X_DMAMODE_BUSWIDTH_32 |
-		    PCI905X_DMAMODE_READY_INPEN |
-		    PCI905X_DMAMODE_LOCALBURST  |
-		    PCI905X_DMAMODE_SCATGATH    |
-		    PCI905X_DMAMODE_DONE_INTEN  |
-		    PCI905X_DMAMODE_LOC_CONST   |
-		    PCI905X_DMAMODE_DEMAND      |
-		    PCI905X_DMAMODE_INT2PCI,
-		    sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_MODE);
+	bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_MODE,
+			   PCI905X_DMAMODE_BUSWIDTH_32 |
+			   PCI905X_DMAMODE_READY_INPEN |
+			   PCI905X_DMAMODE_LOCALBURST  |
+			   PCI905X_DMAMODE_SCATGATH    |
+			   PCI905X_DMAMODE_DONE_INTEN  |
+			   PCI905X_DMAMODE_LOC_CONST   |
+			   PCI905X_DMAMODE_DEMAND      |
+			   PCI905X_DMAMODE_INT2PCI);
 
 	bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_MODE);
 
-	WRITE_LONG (PCI905X_DMAMODE_BUSWIDTH_32 |
-		    PCI905X_DMAMODE_READY_INPEN |
-		    PCI905X_DMAMODE_LOCALBURST  |
-		    PCI905X_DMAMODE_SCATGATH    |
-		    PCI905X_DMAMODE_DONE_INTEN  |
-		    PCI905X_DMAMODE_LOC_CONST   |
-		    PCI905X_DMAMODE_DEMAND      |
-		    PCI905X_DMAMODE_INT2PCI,
-		    sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_MODE);
+	bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_MODE,
+			   PCI905X_DMAMODE_BUSWIDTH_32 |
+			   PCI905X_DMAMODE_READY_INPEN |
+			   PCI905X_DMAMODE_LOCALBURST  |
+			   PCI905X_DMAMODE_SCATGATH    |
+			   PCI905X_DMAMODE_DONE_INTEN  |
+			   PCI905X_DMAMODE_LOC_CONST   |
+			   PCI905X_DMAMODE_DEMAND      |
+			   PCI905X_DMAMODE_INT2PCI);
 
 	bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_MODE);
 }
@@ -799,24 +797,24 @@ dektec_read (struct cdev *cdev, struct uio *uio, int ioflag)
 
 		if (sc->legacy_plx) {
 			/* DMA1 is used for reading */
-			WRITE_LONG (sc->rx_buffer.desc_ds_addr | PCI905X_DMADPR_DESCLOC_PCI,
-				    sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_DESC_PTR);
+			bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_DESC_PTR,
+					   sc->rx_buffer.desc_ds_addr | PCI905X_DMADPR_DESCLOC_PCI);
 
 			bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_DESC_PTR);
 
-			WRITE_BYTE (PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_START,
-				    sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT);
+			bus_space_write_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT,
+					   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_START);
 
 			bus_space_read_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT);
 		} else {
 			/* DMA0 is used for reading */
-			WRITE_LONG (sc->rx_buffer.desc_ds_addr | PCI905X_DMADPR_DESCLOC_PCI,
-				    sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_DMA_DESC);
+			bus_space_write_4 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_DMA_DESC,
+					   sc->rx_buffer.desc_ds_addr | PCI905X_DMADPR_DESCLOC_PCI);
 
 			bus_space_read_4 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_DMA_DESC);
 
-			WRITE_BYTE (PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_START,
-				    sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_CMD_STAT);
+			bus_space_write_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_CMD_STAT,
+					   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_START);
 
 			bus_space_read_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_CMD_STAT);
 		}
@@ -881,24 +879,24 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 
 		if (sc->legacy_plx) {
 			/* DMA0 is used for writing */
-			WRITE_LONG (sc->tx_buffer.desc_ds_addr | PCI905X_DMADPR_DESCLOC_PCI,
-				    sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_DESC_PTR);
+			bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_DESC_PTR,
+					   sc->tx_buffer.desc_ds_addr | PCI905X_DMADPR_DESCLOC_PCI);
 
 			bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_DESC_PTR);
 
-			WRITE_BYTE (PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_START,
-				    sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_COMMAND_STAT);
+			bus_space_write_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_COMMAND_STAT,
+					   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_START);
 
 			bus_space_read_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_COMMAND_STAT);
 		} else {
 			/* DMA1 is used for writing */
-			WRITE_LONG (sc->tx_buffer.desc_ds_addr | PCI905X_DMADPR_DESCLOC_PCI,
-				    sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_DMA_DESC);
+			bus_space_write_4 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_DMA_DESC,
+					   sc->tx_buffer.desc_ds_addr | PCI905X_DMADPR_DESCLOC_PCI);
 
 			bus_space_read_4 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_DMA_DESC);
 
-			WRITE_BYTE (PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_START,
-				    sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_CMD_STAT);
+			bus_space_write_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_CMD_STAT,
+					   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_START);
 
 			bus_space_read_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_CMD_STAT);
 		}
@@ -1155,8 +1153,8 @@ dektec_intr (void *parameter)
 
 		if ((status & PCI905X_DMACSR_DONE) == PCI905X_DMACSR_DONE) {
 			if ((sc->tx_buffer.flags & DMA_BUSY) == DMA_BUSY) {
-				WRITE_BYTE (PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT,
-					    sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_COMMAND_STAT);
+				bus_space_write_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_COMMAND_STAT,
+						   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT);
 				bus_space_read_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_COMMAND_STAT);
 				sc->tx_buffer.flags &= ~DMA_BUSY;
 				wakeup (&sc->tx_buffer);
@@ -1168,8 +1166,8 @@ dektec_intr (void *parameter)
 
 		if ((status & PCI905X_DMACSR_DONE) == PCI905X_DMACSR_DONE) {
 			if ((sc->rx_buffer.flags & DMA_BUSY) == DMA_BUSY) {
-				WRITE_BYTE (PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT,
-					    sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT);
+				bus_space_write_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT,
+						   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT);
 				bus_space_read_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT);
 				sc->rx_buffer.flags &= ~DMA_BUSY;
 				wakeup (&sc->rx_buffer);
@@ -1182,8 +1180,8 @@ dektec_intr (void *parameter)
 		/* PCI905X_DMACSR_DONE */
 
 		if ((status & DTA1XX_DMACSR_INTACT) != 0) {
-			WRITE_BYTE (PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT,
-				    sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_CMD_STAT);
+			bus_space_write_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_CMD_STAT,
+					   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT);
 			bus_space_read_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_CMD_STAT);
 			sc->tx_buffer.flags &= ~DMA_BUSY;
 			wakeup (&sc->tx_buffer);
@@ -1193,8 +1191,8 @@ dektec_intr (void *parameter)
 		status = bus_space_read_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_CMD_STAT);
 
 		if ((status & DTA1XX_DMACSR_INTACT) != 0) {
-			WRITE_BYTE (PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT,
-				    sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_CMD_STAT);
+			bus_space_write_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_CMD_STAT,
+					   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT);
 			bus_space_read_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_CMD_STAT);
 			sc->rx_buffer.flags &= ~DMA_BUSY;
 			wakeup (&sc->rx_buffer);
