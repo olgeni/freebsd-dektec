@@ -187,8 +187,6 @@ struct dektec_sc {
 	struct mtx		mutex; /* FIXME actually use the mutex */
 };
 
-// {{{ get_device_model
-
 static int
 get_device_model (device_t dev)
 {
@@ -206,9 +204,6 @@ get_device_model (device_t dev)
 
 	return 0;
 }
-
-// }}}
-// {{{ desc_dmamap_cb
 
 static void
 desc_dmamap_cb (void *arg, bus_dma_segment_t *segments, int nseg, int error_flag)
@@ -259,9 +254,6 @@ desc_dmamap_cb (void *arg, bus_dma_segment_t *segments, int nseg, int error_flag
 	desc->next_desc = PCI905X_DMADPR_ENDOFCHAIN | PCI905X_DMADPR_INTAFTERTC;
 }
 
-// }}}
-// {{{ buffer_dmamap_cb
-
 static void
 buffer_dmamap_cb (void *arg, bus_dma_segment_t *segments, int nseg, int error_flag)
 {
@@ -305,9 +297,6 @@ done:
 	return;
 }
 
-// }}}
-// {{{ allocate_buffer
-
 static int
 allocate_buffer (device_t dev, struct dektec_sc *sc, struct plx_dma_buffer *dma_buffer)
 {
@@ -350,9 +339,6 @@ done:
 	return error;
 }
 
-// }}}
-// {{{ free_buffer
-
 static int
 free_buffer (device_t dev, struct dektec_sc *sc, struct plx_dma_buffer *dma_buffer)
 {
@@ -363,9 +349,6 @@ free_buffer (device_t dev, struct dektec_sc *sc, struct plx_dma_buffer *dma_buff
 
 	return 0;
 }
-
-// }}}
-// {{{ tx_fifo_available
 
 static int
 tx_fifo_available (struct dektec_sc *sc)
@@ -378,9 +361,6 @@ tx_fifo_available (struct dektec_sc *sc)
 	return (tx_fifo_available > 0) && (tx_fifo_available >= sc->tx_watermark);
 }
 
-// }}}
-// {{{ rx_data_available
-
 static int
 rx_data_available (struct dektec_sc *sc)
 {
@@ -388,9 +368,6 @@ rx_data_available (struct dektec_sc *sc)
 
 	return (rx_fifo_load > 0) && (rx_fifo_load >= sc->rx_watermark);
 }
-
-// }}}
-// {{{ reset_plx
 
 static void
 reset_plx (device_t dev)
@@ -426,9 +403,6 @@ reset_plx (device_t dev)
 	bus_space_write_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT, PCI905X_DMACSR_CLEARINT);
 	bus_space_read_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT);
 }
-
-// }}}
-// {{{ enable_plx
 
 static void
 enable_plx (device_t dev)
@@ -468,9 +442,6 @@ enable_plx (device_t dev)
 	bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_MODE);
 }
 
-// }}}
-// {{{ dektec_probe
-
 static int
 dektec_probe (device_t dev)
 {
@@ -491,9 +462,6 @@ dektec_probe (device_t dev)
 		return ENXIO;
 	}
 }
-
-// }}}
-// {{{ dektec_attach
 
 static int
 dektec_attach (device_t dev)
@@ -650,9 +618,6 @@ done:
 	return error;
 }
 
-// }}}
-// {{{ dektec_detach
-
 static int
 dektec_detach (device_t dev)
 {
@@ -685,9 +650,6 @@ dektec_detach (device_t dev)
 	return 0;
 }
 
-// }}}
-// {{{ dektec_open
-
 static int
 dektec_open (struct cdev *cdev, int flag, int otyp, struct thread *td)
 {
@@ -719,9 +681,6 @@ dektec_open (struct cdev *cdev, int flag, int otyp, struct thread *td)
 	return 0;
 }
 
-// }}}
-// {{{ dektec_close
-
 static int
 dektec_close (struct cdev *cdev, int flag, int otyp, struct thread *td)
 {
@@ -738,9 +697,6 @@ dektec_close (struct cdev *cdev, int flag, int otyp, struct thread *td)
 	return 0;
 }
 
-// }}}
-// {{{ unload_tx_buffer
-
 static void
 unload_tx_buffer (struct dektec_sc *sc)
 {
@@ -749,9 +705,6 @@ unload_tx_buffer (struct dektec_sc *sc)
 	bus_dmamap_unload (sc->buffer_dma_tag, sc->tx_buffer.buffer_dmamap);
 }
 
-// }}}
-// {{{ unload_rx_buffer
-
 static void
 unload_rx_buffer (struct dektec_sc *sc)
 {
@@ -759,9 +712,6 @@ unload_rx_buffer (struct dektec_sc *sc)
 	bus_dmamem_free (sc->desc_dma_tag, sc->rx_buffer.desc_list, sc->rx_buffer.desc_dmamap);
 	bus_dmamap_unload (sc->buffer_dma_tag, sc->rx_buffer.buffer_dmamap);
 }
-
-// }}}
-// {{{ dektec_read
 
 static int
 dektec_read (struct cdev *cdev, struct uio *uio, int ioflag)
@@ -841,9 +791,6 @@ bus_dmamap_load:
 done:
 	return error;
 }
-
-// }}}
-// {{{ dektec_write
 
 static int
 dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
@@ -928,9 +875,6 @@ bus_dmamap_load:
 done:
 	return error;
 }
-
-// }}}
-// {{{ dektec_ioctl
 
 static int
 dektec_ioctl (struct cdev *cdev, u_long cmd, caddr_t arg, int mode, struct thread *td)
@@ -1102,9 +1046,6 @@ dektec_ioctl (struct cdev *cdev, u_long cmd, caddr_t arg, int mode, struct threa
 	return error;
 }
 
-// }}}
-// {{{ dektec_poll
-
 static int
 dektec_poll (struct cdev *cdev, int events, struct thread *td)
 {
@@ -1125,9 +1066,6 @@ dektec_poll (struct cdev *cdev, int events, struct thread *td)
 
 	return 0;
 }
-
-// }}}
-// {{{ dektec_intr
 
 static void
 dektec_intr (void *parameter)
@@ -1218,7 +1156,6 @@ dektec_intr (void *parameter)
 		selwakeup (&sc->selinfo);
 }
 
-// }}}
 
 static device_method_t dektec_methods[] = {
 	/* Device interface */
