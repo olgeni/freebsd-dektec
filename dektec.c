@@ -550,15 +550,17 @@ dektec_attach (device_t dev)
 	if (error)
 		goto bus_setup_intr;
 
-	error = bus_dma_tag_create (NULL, ASI_PLX_SEGMENT_ALIGN, 0, BUS_SPACE_MAXADDR_32BIT, BUS_SPACE_MAXADDR,
-				    NULL, NULL, BUFFER_MAX_DMA_SIZE, BUFFER_MAX_DMA_SEGMENTS, BUFFER_MAX_DMA_SEGMENT_SIZE,
+	error = bus_dma_tag_create (NULL, ASI_PLX_SEGMENT_ALIGN, 0, BUS_SPACE_MAXADDR_32BIT,
+				    BUS_SPACE_MAXADDR, NULL, NULL, BUFFER_MAX_DMA_SIZE,
+				    BUFFER_MAX_DMA_SEGMENTS, BUFFER_MAX_DMA_SEGMENT_SIZE,
 				    BUS_DMA_ALLOCNOW, NULL, NULL, &sc->buffer_dma_tag);
 
 	if (error)
 		goto bus_dma_tag_create_buffer;
 
-	error = bus_dma_tag_create (NULL, ASI_PLX_DESCRIPTOR_ALIGN, 0, BUS_SPACE_MAXADDR_32BIT, BUS_SPACE_MAXADDR,
-				    NULL, NULL, DESC_MAX_DMA_SIZE, DESC_MAX_DMA_SEGMENTS, DESC_MAX_DMA_SEGMENT_SIZE,
+	error = bus_dma_tag_create (NULL, ASI_PLX_DESCRIPTOR_ALIGN, 0, BUS_SPACE_MAXADDR_32BIT,
+				    BUS_SPACE_MAXADDR, NULL, NULL, DESC_MAX_DMA_SIZE,
+				    DESC_MAX_DMA_SEGMENTS, DESC_MAX_DMA_SEGMENT_SIZE,
 				    BUS_DMA_ALLOCNOW, NULL, NULL, &sc->desc_dma_tag);
 
 	if (error)
