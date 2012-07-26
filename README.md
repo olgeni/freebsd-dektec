@@ -7,7 +7,7 @@ DTA-145, DTA-2145).
 - dektec.c - the actual device driver code
 - dektec.h - lots of IOCTL codes used in the driver
 - Dta1xxCodes.h - codes and constants from DekTec
-- Dta1xxRegs.h - use to include GenRegs.h, RxRegs.h, TxRegs.h.
+- Dta1xxRegs.h - use to include GenRegs.h, RxRegs.h and TxRegs.h.
 - GenRegs.h - definitions related to the generic control register, from DekTec, adapted to FreeBSD
 - RxRegs.h - definitions related to the RX control register, from DekTec, adapted to FreeBSD
 - TxRegs.h - definitions related to the TX control register, from DekTec, adapted to FreeBSD
