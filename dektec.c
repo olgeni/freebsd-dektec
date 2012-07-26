@@ -396,9 +396,7 @@ reset_plx (device_t dev)
 {
 	struct dektec_sc *sc = (struct dektec_sc *) device_get_softc (dev);
 
-	uint32_t cntrl;
-
-	cntrl = READ_LONG (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
+	uint32_t cntrl = READ_LONG (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
 
 	WRITE_LONG (cntrl | PCI905X_CNTRL_RESET, sc->plx_base_bt, sc->plx_base_bh,
 		    PCI905X_EEPROM_CTRL_STAT);
