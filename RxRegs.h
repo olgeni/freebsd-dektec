@@ -103,7 +103,7 @@
 static inline int
 dta1xx_rx_get_gen_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, DTA1XX_RX_REG_GENCTRL);
+	return bus_space_read_4 (tag, handle, DTA1XX_RX_REG_GENCTRL);
 }
 
 static inline void
@@ -171,7 +171,7 @@ dta1xx_rx_gen_ctrl_reg_get_type_number (bus_space_tag_t tag, bus_space_handle_t 
 static inline int
 dta1xx_rx_get_rx_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_RX_REG_RXCTRL);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_RX_REG_RXCTRL);
 }
 
 static inline void
@@ -408,7 +408,7 @@ dta1xx_rx_channel_reset (bus_space_tag_t tag, bus_space_handle_t handle, int32_t
 static inline int
 dta1xx_rx_get_rx_status_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_RX_REG_RXSTATUS);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_RX_REG_RXSTATUS);
 }
 
 static inline void
@@ -534,13 +534,13 @@ dta1xx_rx_status_reg_get_asi_inv (bus_space_tag_t tag, bus_space_handle_t handle
 static inline int
 dta1xx_rx_get_fifo_load_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_RX_REG_FIFOLOAD);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_RX_REG_FIFOLOAD);
 }
 
 static inline int
 dta1xx_rx_get_diag_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_RX_REG_DIAG);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_RX_REG_DIAG);
 }
 
 static inline void
@@ -593,7 +593,7 @@ dta1xx_rx_set_loop_back_data (bus_space_tag_t tag, bus_space_handle_t handle, in
 static inline int
 dta1xx_rx_get_thresh_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_RX_REG_THRESHCTRL);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_RX_REG_THRESHCTRL);
 }
 
 static inline void
@@ -605,31 +605,31 @@ dta1xx_rx_set_thresh_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, i
 static inline int
 dta1xx_rx_get_pck_count_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_RX_REG_PCKCOUNT);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_RX_REG_PCKCOUNT);
 }
 
 static inline int
 dta1xx_rx_get_clk_count_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_RX_REG_CLKCOUNT);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_RX_REG_CLKCOUNT);
 }
 
 static inline int
 dta1xx_rx_get_valid_count_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_RX_REG_VALIDCOUNT);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_RX_REG_VALIDCOUNT);
 }
 
 static inline int
 dta1xx_rx_get_viol_count_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_RX_REG_VIOLCOUNT);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_RX_REG_VIOLCOUNT);
 }
 
 static inline int
 dta1xx_rx_get_fifo_data_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_RX_REG_FIFO_FIRST);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_RX_REG_FIFO_FIRST);
 }
 
 #endif // __RX_REGS_H

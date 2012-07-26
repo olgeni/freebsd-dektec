@@ -82,7 +82,7 @@
 static inline int
 dta1xx_gen_get_gen_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_GEN_REG_GENCTRL);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_GEN_REG_GENCTRL);
 }
 
 static inline void
@@ -199,7 +199,7 @@ dta1xx_gen_led_control (bus_space_tag_t tag, bus_space_handle_t handle, int32_t 
 static inline int
 dta1xx_gen_get_gen_status_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_GEN_REG_GENSTATUS);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_GEN_REG_GENSTATUS);
 }
 
 static inline void
@@ -223,7 +223,7 @@ dta1xx_gen_status_reg_clr_per_int (bus_space_tag_t tag, bus_space_handle_t handl
 static inline int32_t
 dta1xx_gen_get_control1_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	return READ_LONG (tag, handle, base + DTA1XX_GEN_REG_CONTROL1);
+	return bus_space_read_4 (tag, handle, base + DTA1XX_GEN_REG_CONTROL1);
 }
 
 static inline void
