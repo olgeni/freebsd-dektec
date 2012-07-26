@@ -111,9 +111,7 @@ Dta1xxGenCtrlRegSetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t b
 static inline int
 Dta1xxGenCtrlRegGetPE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
-
-	return (value & DTA1XX_GENCTRL_PE);
+	return (Dta1xxGenGetGenCtrlReg (tag, handle, base) & DTA1XX_GENCTRL_PE);
 }
 
 static inline void
@@ -132,9 +130,7 @@ Dta1xxGenCtrlRegSetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t 
 static inline int
 Dta1xxGenCtrlRegGetPRE (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
-
-	return (value & DTA1XX_GENCTRL_PRE);
+	return (Dta1xxGenGetGenCtrlReg (tag, handle, base) & DTA1XX_GENCTRL_PRE);
 }
 
 static inline void
@@ -160,9 +156,7 @@ Dta1xxGenCtrlRegGetFirmwareRev (bus_space_tag_t tag, bus_space_handle_t handle, 
 static inline int
 Dta1xxGenCtrlRegGetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
-
-	return (value & DTA1XX_GENCTRL_PERINT_EN);
+	return (Dta1xxGenGetGenCtrlReg (tag, handle, base) & DTA1XX_GENCTRL_PERINT_EN);
 }
 
 static inline void
@@ -181,9 +175,7 @@ Dta1xxGenCtrlRegSetPerIntEn (bus_space_tag_t tag, bus_space_handle_t handle, int
 static inline int
 Dta1xxGenCtrlRegGetPerIntVal (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value = Dta1xxGenGetGenCtrlReg (tag, handle, base);
-
-	return (value & DTA1XX_GENCTRL_PERINT_VAL) >> 5;
+	return (Dta1xxGenGetGenCtrlReg (tag, handle, base) & DTA1XX_GENCTRL_PERINT_VAL) >> 5;
 }
 
 static inline void
@@ -227,9 +219,7 @@ Dta1xxGenSetGenStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_
 static inline int
 Dta1xxGenStatusRegGetPerInt (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value = Dta1xxGenGetGenStatusReg (tag, handle, base);
-
-	return (value & DTA1XX_GENSTAT_PERINT);
+	return (Dta1xxGenGetGenStatusReg (tag, handle, base) & DTA1XX_GENSTAT_PERINT);
 }
 
 static inline void
