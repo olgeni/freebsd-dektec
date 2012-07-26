@@ -101,11 +101,7 @@
 static inline int
 dta1xx_tx_get_gen_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value;
-
-	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_GENCTRL);
-
-	return value;
+	return READ_LONG (tag, handle, base + DTA1XX_TX_REG_GENCTRL);
 }
 
 static inline void
@@ -173,11 +169,7 @@ dta1xx_tx_gen_ctrl_reg_get_type_number (bus_space_tag_t tag, bus_space_handle_t 
 static inline int
 dta1xx_tx_get_tx_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value;
-
-	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_TXCTRL);
-
-	return value;
+	return READ_LONG (tag, handle, base + DTA1XX_TX_REG_TXCTRL);
 }
 
 static inline void
@@ -448,11 +440,7 @@ dta1xx_tx_ctrl_set_tx_asi_inv (bus_space_tag_t tag, bus_space_handle_t handle, i
 static inline int
 dta1xx_tx_get_tx_status_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value;
-
-	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_TXSTATUS);
-
-	return value;
+	return READ_LONG (tag, handle, base + DTA1XX_TX_REG_TXSTATUS);
 }
 
 static inline void
@@ -540,11 +528,7 @@ dta1xx_tx_status_reg_clr_thr_int (bus_space_tag_t tag, bus_space_handle_t handle
 static inline int
 dta1xx_tx_get_tx_clock_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value;
-
-	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_TXCLOCK);
-
-	return value;
+	return READ_LONG (tag, handle, base + DTA1XX_TX_REG_TXCLOCK);
 }
 
 static inline void
@@ -556,21 +540,13 @@ dta1xx_tx_set_tx_clock_reg (bus_space_tag_t tag, bus_space_handle_t handle, int3
 static inline int
 dta1xx_tx_get_clk_count_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value;
-
-	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_CLOCKCNT);
-
-	return value;
+	return READ_LONG (tag, handle, base + DTA1XX_TX_REG_CLOCKCNT);
 }
 
 static inline int
 dta1xx_tx_get_fifo_size_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value;
-
-	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_FIFOSIZE);
-
-	return value;
+	return READ_LONG (tag, handle, base + DTA1XX_TX_REG_FIFOSIZE);
 }
 
 static inline void
@@ -582,21 +558,13 @@ dta1xx_tx_set_fifo_size_reg (bus_space_tag_t tag, bus_space_handle_t handle, int
 static inline int
 dta1xx_tx_get_fifo_load_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value;
-
-	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_FIFOLOAD);
-
-	return value;
+	return READ_LONG (tag, handle, base + DTA1XX_TX_REG_FIFOLOAD);
 }
 
 static inline int
 dta1xx_tx_get_diag_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value;
-
-	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_DIAG);
-
-	return value;
+	return READ_LONG (tag, handle, base + DTA1XX_TX_REG_DIAG);
 }
 
 static inline void
@@ -685,21 +653,13 @@ dta1xx_tx_diag_reg_get_bf_load (bus_space_tag_t tag, bus_space_handle_t handle, 
 static inline int
 dta1xx_tx_get_loop_back_data_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value;
-
-	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_LOOPBKDATA);
-
-	return value;
+	return READ_LONG (tag, handle, base + DTA1XX_TX_REG_LOOPBKDATA);
 }
 
 static inline int
 dta1xx_tx_get_thresh_ctrl_reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base)
 {
-	int32_t value;
-
-	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_THRESHCTRL);
-
-	return value;
+	return READ_LONG (tag, handle, base + DTA1XX_TX_REG_THRESHCTRL);
 }
 
 static inline void
