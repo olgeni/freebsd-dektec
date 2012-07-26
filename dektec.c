@@ -124,7 +124,9 @@ struct plx_dma_desc {
 	uint32_t	pci_addr;
 	uint32_t	local_addr;
 	uint32_t	bytes;
-	uint32_t	next_desc;
+	uint32_t	next_desc; /* might contain any of the following bit flags:
+				      PCI905X_DMADPR_DESCLOC_PCI, PCI905X_DMADPR_ENDOFCHAIN,
+				      PCI905X_DMADPR_INTAFTERTC, PCI905X_DMADPR_DIROFTFR */
 };
 
 struct plx_dma_buffer {
