@@ -15,3 +15,6 @@ SRCS=	dektec.c \
 	pci_if.h
 
 .include <bsd.kmod.mk>
+
+check-syntax:
+	$(CC) $(CFLAGS) -o /dev/null -S $(CHK_SOURCES)
