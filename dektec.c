@@ -272,9 +272,12 @@ buffer_dmamap_cb (void *arg, bus_dma_segment_t *segments, int nseg, int error_fl
 	if (error)
 		goto bus_dmamem_alloc;
 
-	error = bus_dmamap_load (dma_buffer->sc->desc_dma_tag, dma_buffer->desc_dmamap,
-				 dma_buffer->desc_list, nseg * sizeof (struct plx_dma_desc),
-				 desc_dmamap_cb, dma_buffer, 0);
+	error = bus_dmamap_load (dma_buffer->sc->desc_dma_tag,
+				 dma_buffer->desc_dmamap,
+				 dma_buffer->desc_list,
+				 nseg * sizeof (struct plx_dma_desc),
+				 desc_dmamap_cb,
+				 dma_buffer, 0);
 
 	if (error)
 		goto bus_dmamap_load;
@@ -725,8 +728,12 @@ dektec_read (struct cdev *cdev, struct uio *uio, int ioflag)
 
 		int amount = MIN (RX_BUFFER_SIZE, uio->uio_resid);
 
-		error = bus_dmamap_load (sc->buffer_dma_tag, sc->rx_buffer.buffer_dmamap,
-					 sc->rx_buffer.buffer, amount, buffer_dmamap_cb, dma_buffer, 0);
+		error = bus_dmamap_load (sc->buffer_dma_tag,
+					 sc->rx_buffer.buffer_dmamap,
+					 sc->rx_buffer.buffer,
+					 amount,
+					 buffer_dmamap_cb,
+					 dma_buffer, 0);
 
 		if (error)
 			goto bus_dmamap_load;
@@ -804,8 +811,12 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 
 		int amount = MIN (TX_BUFFER_SIZE, uio->uio_resid);
 
-		error = bus_dmamap_load (sc->buffer_dma_tag, sc->tx_buffer.buffer_dmamap,
-					 sc->tx_buffer.buffer, amount, buffer_dmamap_cb, dma_buffer, 0);
+		error = bus_dmamap_load (sc->buffer_dma_tag,
+					 sc->tx_buffer.buffer_dmamap,
+					 sc->tx_buffer.buffer,
+					 amount,
+					 buffer_dmamap_cb,
+					 dma_buffer, 0);
 
 		if (error)
 			goto bus_dmamap_load;
