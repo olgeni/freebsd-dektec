@@ -369,8 +369,8 @@ free_buffer (device_t dev, struct dektec_sc *sc, struct plx_dma_buffer *dma_buff
 static int
 tx_fifo_available (struct dektec_sc *sc)
 {
-	int tx_fifo_size = Dta1xxTxGetFifoSizeReg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
-	int tx_fifo_load = Dta1xxTxGetFifoLoadReg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+	int tx_fifo_size = dta1xx_tx_get_fifo_size_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+	int tx_fifo_load = dta1xx_tx_get_fifo_load_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 
 	int tx_fifo_available = tx_fifo_size - tx_fifo_load;
 
@@ -383,7 +383,7 @@ tx_fifo_available (struct dektec_sc *sc)
 static int
 rx_data_available (struct dektec_sc *sc)
 {
-	int rx_fifo_load = Dta1xxRxGetFifoLoadReg (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+	int rx_fifo_load = dta1xx_rx_get_fifo_load_reg (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 
 	return (rx_fifo_load > 0) && (rx_fifo_load >= sc->rx_watermark);
 }
@@ -418,7 +418,7 @@ reset_plx (device_t dev)
 	READ_LONG (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
 
 	/* FIXME remove/refactor */
-	Dta1xxGenCtrlRegReset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
+	dta1xx_gen_ctrl_reg_reset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
 	DELAY (6000); /* 6 Kus */
 
 	WRITE_BYTE (PCI905X_DMACSR_CLEARINT, sc->plx_base_bt, sc->plx_base_bh,
@@ -611,16 +611,16 @@ dektec_attach (device_t dev)
 		enable_plx (dev);
 	}
 
-	sc->fw_rev_gen = Dta1xxGenCtrlRegGetFirmwareRev (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
-	sc->fw_rev_tx = Dta1xxTxGenCtrlRegGetFirmwareRev (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
-	sc->fw_rev_rx = Dta1xxRxGenCtrlRegGetFirmwareRev (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+	sc->fw_rev_gen = dta1xx_gen_ctrl_reg_get_firmware_rev (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
+	sc->fw_rev_tx = dta1xx_tx_gen_ctrl_reg_get_firmware_rev (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+	sc->fw_rev_rx = dta1xx_rx_gen_ctrl_reg_get_firmware_rev (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 
 	mtx_init (&sc->mutex, "dektec", NULL, MTX_DEF);
 
 	device_printf (dev, "board model %d, firmware version %d (tx: %d, rx: %d), tx fifo %d MB\n",
-		       Dta1xxRxGenCtrlRegGetTypeNumber (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base),
+		       dta1xx_rx_gen_ctrl_reg_get_type_number (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base),
 		       sc->fw_rev_gen, sc->fw_rev_tx, sc->fw_rev_rx,
-		       Dta1xxTxGetFifoSizeReg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base) / 1024);
+		       dta1xx_tx_get_fifo_size_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base) / 1024);
 
 	goto done;
 
@@ -701,9 +701,9 @@ dektec_open (struct cdev *cdev, int flag, int otyp, struct thread *td)
 	sc->tx_watermark = 0;
 	sc->rx_watermark = 0;
 
-	Dta1xxGenCtrlRegReset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
-	Dta1xxGenCtrlRegSetPerIntVal (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base, 4); /* 145 */
-	Dta1xxGenCtrlRegSetPerIntEn (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base, 1);
+	dta1xx_gen_ctrl_reg_reset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
+	dta1xx_gen_ctrl_reg_set_per_int_val (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base, 4); /* 145 */
+	dta1xx_gen_ctrl_reg_set_per_int_en (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base, 1);
 
 	switch (sc->model) {
 	case BOARD_MODEL_140:
@@ -712,10 +712,10 @@ dektec_open (struct cdev *cdev, int flag, int otyp, struct thread *td)
 	case BOARD_MODEL_145:
 	case BOARD_MODEL_2145:
 		/* ASI/SDI Transmit (Tx) channel 0 at 0x180 (rx_base + 0x80) */
-		Dta1xxTxCtrlRegSetOutputEn (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base + 0x80, 0);
-		Dta1xxTxCtrlRegSetOutputEn (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, 1);
-		Dta1xxDmaTimeOutSet (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0, 0);
-		Dta1xxDmaTimeOutSet (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1, 0);
+		dta1xx_tx_ctrl_reg_set_output_en (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base + 0x80, 0);
+		dta1xx_tx_ctrl_reg_set_output_en (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, 1);
+		dta1xx_dma_timeout_set (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0, 0);
+		dta1xx_dma_timeout_set (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1, 0);
 		break;
 	}
 
@@ -733,8 +733,8 @@ dektec_close (struct cdev *cdev, int flag, int otyp, struct thread *td)
 	sc->tx_watermark = 0;
 	sc->rx_watermark = 0;
 
-	Dta1xxGenCtrlRegSetPerIntEn (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base, 0);
-	Dta1xxGenCtrlRegReset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
+	dta1xx_gen_ctrl_reg_set_per_int_en (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base, 0);
+	dta1xx_gen_ctrl_reg_reset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
 
 	device_unbusy (sc->dev);
 
@@ -909,8 +909,8 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 
 		if (tsleep (&sc->tx_buffer, PRIBIO, DEKTEC_STATE_WRITE, TX_TIMEOUT) == EWOULDBLOCK) {
 			printf ("dektec_write: EIO (fifo size: %d, load: %d, watermark: %d)\n",
-				Dta1xxTxGetFifoSizeReg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base),
-				Dta1xxTxGetFifoLoadReg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base),
+				dta1xx_tx_get_fifo_size_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base),
+				dta1xx_tx_get_fifo_load_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base),
 				sc->tx_watermark);
 
 			error = EIO;
@@ -947,139 +947,139 @@ dektec_ioctl (struct cdev *cdev, u_long cmd, caddr_t arg, int mode, struct threa
 		/* Gen */
 
 	case IOCTL_Dta1xxGenCtrlRegReset:
-		Dta1xxGenCtrlRegReset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
+		dta1xx_gen_ctrl_reg_reset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
 		break;
 	case IOCTL_Dta1xxGenCtrlRegGetFirmwareRev:
-		*(int *) arg = Dta1xxGenCtrlRegGetFirmwareRev (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
+		*(int *) arg = dta1xx_gen_ctrl_reg_get_firmware_rev (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
 		break;
 
 		/* RX */
 
 	case IOCTL_Dta1xxRxGenCtrlRegGetFirmwareRev:
-		*(int *) arg = Dta1xxRxGenCtrlRegGetFirmwareRev (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_gen_ctrl_reg_get_firmware_rev (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxGenCtrlRegGetTypeNumber:
-		*(int *) arg = Dta1xxRxGenCtrlRegGetTypeNumber (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_gen_ctrl_reg_get_type_number (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxCtrlRegGetRxMode:
-		*(int *) arg = Dta1xxRxCtrlRegGetRxMode (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_ctrl_reg_get_rx_mode (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxCtrlRegSetRxMode:
-		Dta1xxRxCtrlRegSetRxMode (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base, *(int *) arg);
+		dta1xx_rx_ctrl_reg_set_rx_mode (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxRxCtrlRegGetRxCtrl:
-		*(int *) arg = Dta1xxRxCtrlRegGetRxCtrl (sc->dta_base_bt, sc->rx_base, sc->dta_base_bh);
+		*(int *) arg = dta1xx_rx_ctrl_reg_get_rx_ctrl (sc->dta_base_bt, sc->rx_base, sc->dta_base_bh);
 		break;
 	case IOCTL_Dta1xxRxCtrlRegSetRxCtrl:
-		Dta1xxRxCtrlRegSetRxCtrl (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base, *(int *) arg);
+		dta1xx_rx_ctrl_reg_set_rx_ctrl (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxRxCtrlRegGetAsiInv:
-		*(int *) arg = Dta1xxRxCtrlRegGetAsiInv (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_ctrl_reg_get_asi_inv (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxCtrlRegSetAsiInv:
-		Dta1xxRxCtrlRegSetAsiInv (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base, *(int *) arg);
+		dta1xx_rx_ctrl_reg_set_asi_inv (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxRxCtrlRegGetEqualise:
-		*(int *) arg = Dta1xxRxCtrlRegGetEqualise (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_ctrl_reg_get_equalise (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxCtrlRegSetEqualise:
-		Dta1xxRxCtrlRegSetEqualise (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base, *(int *) arg);
+		dta1xx_rx_ctrl_reg_set_equalise (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxRxCtrlRegGetEnaPwr:
-		*(int *) arg = Dta1xxRxCtrlRegGetEnaPwr (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_ctrl_reg_get_ena_pwr (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxCtrlRegSetEnaPwr:
-		Dta1xxRxCtrlRegSetEnaPwr (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base, *(int *) arg);
+		dta1xx_rx_ctrl_reg_set_ena_pwr (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxRxClrFifo:
-		Dta1xxRxClrFifo (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		dta1xx_rx_clr_fifo (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxStatusRegGetPckSize:
-		*(int *) arg = Dta1xxRxStatusRegGetPckSize (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_status_reg_get_pck_size (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxStatusRegGetNumInv:
-		*(int *) arg = Dta1xxRxStatusRegGetNumInv (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_status_reg_get_num_inv (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxStatusRegGetSdramSize:
-		*(int *) arg = Dta1xxRxStatusRegGetSdramSize (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_status_reg_get_sdram_size (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxStatusRegGetAsiCD:
-		*(int *) arg = Dta1xxRxStatusRegGetAsiCD (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_status_reg_get_asi_cd (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxStatusRegGetAsiLock:
-		*(int *) arg = Dta1xxRxStatusRegGetAsiLock (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_status_reg_get_asi_lock (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxStatusRegGetRateOk:
-		*(int *) arg = Dta1xxRxStatusRegGetRateOk (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_status_reg_get_rate_ok (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxStatusRegGetAsiInv:
-		*(int *) arg = Dta1xxRxStatusRegGetAsiInv (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_status_reg_get_asi_inv (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 	case IOCTL_Dta1xxRxGetFifoLoadReg:
-		*(int *) arg = Dta1xxRxGetFifoLoadReg (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
+		*(int *) arg = dta1xx_rx_get_fifo_load_reg (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 		break;
 
 		/* TX */
 
 	case IOCTL_Dta1xxTxGenCtrlRegGetFirmwareRev:
-		*(int *) arg = Dta1xxTxGenCtrlRegGetFirmwareRev (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		*(int *) arg = dta1xx_tx_gen_ctrl_reg_get_firmware_rev (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 	case IOCTL_Dta1xxTxGenCtrlRegGetTypeNumber:
-		*(int *) arg = Dta1xxTxGenCtrlRegGetTypeNumber (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		*(int *) arg = dta1xx_tx_gen_ctrl_reg_get_type_number (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 	case IOCTL_Dta1xxTxCtrlRegGetTxMode:
-		*(int *) arg = Dta1xxTxCtrlRegGetTxMode (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		*(int *) arg = dta1xx_tx_ctrl_reg_get_tx_mode (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 	case IOCTL_Dta1xxTxCtrlRegSetTxMode:
-		Dta1xxTxCtrlRegSetTxMode (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
+		dta1xx_tx_ctrl_reg_set_tx_mode (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxTxCtrlRegGetBurstMode:
-		*(int *) arg = Dta1xxTxCtrlRegGetBurstMode (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		*(int *) arg = dta1xx_tx_ctrl_reg_get_burst_mode (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 	case IOCTL_Dta1xxTxCtrlRegSetBurstMode:
-		Dta1xxTxCtrlRegSetBurstMode (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
+		dta1xx_tx_ctrl_reg_set_burst_mode (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxTxCtrlRegGetPckStuff:
-		*(int *) arg = Dta1xxTxCtrlRegGetPckStuff (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		*(int *) arg = dta1xx_tx_ctrl_reg_get_pck_stuff (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 	case IOCTL_Dta1xxTxCtrlRegSetPckStuff:
-		Dta1xxTxCtrlRegSetPckStuff (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
+		dta1xx_tx_ctrl_reg_set_pck_stuff (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxTxCtrlRegGetTxCtrl:
-		*(int *) arg = Dta1xxTxCtrlRegGetTxCtrl (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		*(int *) arg = dta1xx_tx_ctrl_reg_get_tx_ctrl (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 	case IOCTL_Dta1xxTxCtrlRegSetTxCtrl:
-		Dta1xxTxCtrlRegSetTxCtrl (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
+		dta1xx_tx_ctrl_reg_set_tx_ctrl (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxTxCtrlRegSetEnaPwr:
-		Dta1xxTxCtrlRegSetEnaPwr (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
+		dta1xx_tx_ctrl_reg_set_ena_pwr (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxTxClrFifo:
-		Dta1xxTxClrFifo (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		dta1xx_tx_clr_fifo (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 	case IOCTL_Dta1xxTxCtrlSetTxAsiInv:
-		Dta1xxTxCtrlSetTxAsiInv (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
+		dta1xx_tx_ctrl_set_tx_asi_inv (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxTxStatusRegGetFifoFilled:
-		*(int *) arg = Dta1xxTxStatusRegGetFifoFilled (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		*(int *) arg = dta1xx_tx_status_reg_get_fifo_filled (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 	case IOCTL_Dta1xxTxStatusRegGetSdramSize:
-		*(int *) arg = Dta1xxTxStatusRegGetSdramSize (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		*(int *) arg = dta1xx_tx_status_reg_get_sdram_size (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 	case IOCTL_Dta1xxTxGetTxClockReg:
-		*(int *) arg = Dta1xxTxGetTxClockReg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		*(int *) arg = dta1xx_tx_get_tx_clock_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 	case IOCTL_Dta1xxTxSetTxClockReg:
-		Dta1xxTxSetTxClockReg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
+		dta1xx_tx_set_tx_clock_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxTxGetFifoSizeReg:
-		*(int *) arg = Dta1xxTxGetFifoSizeReg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		*(int *) arg = dta1xx_tx_get_fifo_size_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 	case IOCTL_Dta1xxTxSetFifoSizeReg:
-		Dta1xxTxSetFifoSizeReg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
+		dta1xx_tx_set_fifo_size_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base, *(int *) arg);
 		break;
 	case IOCTL_Dta1xxTxGetFifoLoadReg:
-		*(int *) arg = Dta1xxTxGetFifoLoadReg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+		*(int *) arg = dta1xx_tx_get_fifo_load_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 		break;
 
 		/* Fifo */
@@ -1139,11 +1139,11 @@ dektec_intr (void *parameter)
 
 	uint32_t status, select_wakeup = 0;
 
-	if (Dta1xxGenStatusRegGetPerInt (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base)) {
-		Dta1xxGenStatusRegClrPerInt (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
+	if (dta1xx_gen_status_reg_get_per_int (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base)) {
+		dta1xx_gen_status_reg_clr_per_int (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
 
 		if (sc->model == BOARD_MODEL_145 || sc->model == BOARD_MODEL_2145)
-			Dta1xxGenPulseWatchdog (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
+			dta1xx_gen_pulse_watchdog (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
 
 		if (tx_fifo_available (sc) || rx_data_available (sc))
 			select_wakeup = 1;
@@ -1203,19 +1203,19 @@ dektec_intr (void *parameter)
 		}
 	}
 
-	Dta1xxRxSetRxStatusReg (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base,
-				DTA1XX_RXSTAT_PERINT  |
-				DTA1XX_RXSTAT_OVFINT  |
-				DTA1XX_RXSTAT_SYNCINT |
-				DTA1XX_RXSTAT_THRINT  |
-				DTA1XX_RXSTAT_RATEOVFINT);
+	dta1xx_rx_set_rx_status_reg (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base,
+				     DTA1XX_RXSTAT_PERINT  |
+				     DTA1XX_RXSTAT_OVFINT  |
+				     DTA1XX_RXSTAT_SYNCINT |
+				     DTA1XX_RXSTAT_THRINT  |
+				     DTA1XX_RXSTAT_RATEOVFINT);
 
-	Dta1xxTxSetTxStatusReg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base,
-				DTA1XX_TXSTAT_PERINT  |
-				DTA1XX_TXSTAT_UFLINT  |
-				DTA1XX_TXSTAT_SYNCINT |
-				DTA1XX_TXSTAT_THRINT  |
-				DTA1XX_TXSTAT_SHORTINT);
+	dta1xx_tx_set_tx_status_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base,
+				     DTA1XX_TXSTAT_PERINT  |
+				     DTA1XX_TXSTAT_UFLINT  |
+				     DTA1XX_TXSTAT_SYNCINT |
+				     DTA1XX_TXSTAT_THRINT  |
+				     DTA1XX_TXSTAT_SHORTINT);
 
 	if (select_wakeup && SEL_WAITING (&sc->selinfo))
 		selwakeup (&sc->selinfo);
