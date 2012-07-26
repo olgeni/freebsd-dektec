@@ -15,7 +15,7 @@ DTA-145, DTA-2145).
 
 Basically, the .h files are the same as the headers distributed with the
 DekTec driver for Linux, minus a few adaptations related to FreeBSD (mostly
-busdma(9) and bus_space(9)).
+busdma(9) and bus\_space(9)).
 
 Pretty much everything happens in dektec.c. The driver is not compatible
 with DekTec's DTAPI but it supports a read/write interface with polling.
