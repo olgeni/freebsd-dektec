@@ -103,7 +103,7 @@ Dta1xxTxGetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t b
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_TX_REG_GENCTRL);
+	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_GENCTRL);
 
 	return value;
 }
@@ -175,7 +175,7 @@ Dta1xxTxGetTxCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t ba
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_TX_REG_TXCTRL);
+	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_TXCTRL);
 
 	return value;
 }
@@ -450,7 +450,7 @@ Dta1xxTxGetTxStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t 
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_TX_REG_TXSTATUS);
+	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_TXSTATUS);
 
 	return value;
 }
@@ -542,7 +542,7 @@ Dta1xxTxGetTxClockReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t b
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_TX_REG_TXCLOCK);
+	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_TXCLOCK);
 
 	return value;
 }
@@ -558,7 +558,7 @@ Dta1xxTxGetClkCountReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t 
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_TX_REG_CLOCKCNT);
+	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_CLOCKCNT);
 
 	return value;
 }
@@ -568,7 +568,7 @@ Dta1xxTxGetFifoSizeReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t 
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_TX_REG_FIFOSIZE);
+	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_FIFOSIZE);
 
 	return value;
 }
@@ -584,7 +584,7 @@ Dta1xxTxGetFifoLoadReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t 
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_TX_REG_FIFOLOAD);
+	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_FIFOLOAD);
 
 	return value;
 }
@@ -594,7 +594,7 @@ Dta1xxTxGetDiagReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t base
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_TX_REG_DIAG);
+	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_DIAG);
 
 	return value;
 }
@@ -687,7 +687,7 @@ Dta1xxTxGetLoopBackDataReg (bus_space_tag_t tag, bus_space_handle_t handle, int3
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_TX_REG_LOOPBKDATA);
+	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_LOOPBKDATA);
 
 	return value;
 }
@@ -697,7 +697,7 @@ Dta1xxTxGetThreshCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_TX_REG_THRESHCTRL);
+	value = READ_LONG (tag, handle, base + DTA1XX_TX_REG_THRESHCTRL);
 
 	return value;
 }

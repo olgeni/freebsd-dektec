@@ -84,7 +84,7 @@ Dta1xxGenGetGenCtrlReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t 
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_GEN_REG_GENCTRL);
+	value = READ_LONG (tag, handle, base + DTA1XX_GEN_REG_GENCTRL);
 
 	return value;
 }
@@ -205,7 +205,7 @@ Dta1xxGenGetGenStatusReg (bus_space_tag_t tag, bus_space_handle_t handle, int32_
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_GEN_REG_GENSTATUS);
+	value = READ_LONG (tag, handle, base + DTA1XX_GEN_REG_GENSTATUS);
 
 	return value;
 }
@@ -233,7 +233,7 @@ Dta1xxGenGetControl1Reg (bus_space_tag_t tag, bus_space_handle_t handle, int32_t
 {
 	int32_t value;
 
-	READ_LONG (value, tag, handle, base + DTA1XX_GEN_REG_CONTROL1);
+	value = READ_LONG (tag, handle, base + DTA1XX_GEN_REG_CONTROL1);
 
 	return value;
 }
