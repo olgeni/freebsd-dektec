@@ -2,7 +2,8 @@ freebsd-dektec
 ==============
 
 A FreeBSD driver for some [DekTec](http://dektec.com/) ASI boards (DTA-140,
-DTA-145, DTA-2145).
+DTA-145, DTA-2145). It is compatible with FreeBSD 7.x, 8.x, 9.x and
+possibly 10.x (untested).
 
 - dektec.c - the actual device driver code
 - dektec.h - lots of IOCTL codes used in the driver
