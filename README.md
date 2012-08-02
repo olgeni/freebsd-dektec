@@ -40,8 +40,9 @@ To understand what is going on you will need at least some of the following:
 
 Bonus items:
 
-- A document titled "_DVB/ASI Input+Output Adapter for PCI Bus_" from
-  DekTec, which will provide a broad description of the DTA-140 operations.
+- The DTA-140 data sheet,
+  [DVB/ASI Input+Output Adapter for PCI Bus](http://www.dektec.com/products/PCI/DTA-140/Downloads/DTA-140.pdf),
+  which will provide a broad description of the DTA-140 operations.
 
 - A copy of _ISO/IEC 13818 Part 1_ could help when developing userland
   software.
