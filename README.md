@@ -145,6 +145,8 @@ Todo
 
 - Do something useful with the led, possibly from userland.
 
+- Do something interesting with DTrace.
+
 <!-- Local Variables: -->
 <!-- fill-column: 75 -->
 <!-- End: -->
