@@ -125,6 +125,12 @@ Bugs / gotchas
 - Lots of constants may be unused, but you'd better keep them for future
   use.
 
+Version history
+===============
+
+- v1.0.0: Initial import from production code
+- v1.1.0: General cleanup
+
 Todo
 ====
 
