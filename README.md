@@ -136,6 +136,8 @@ Todo
 
 - Carefully review the dmamap callbacks for edge cases.
 
+- Avoid doing too much stuff in interrupt context.
+
 - Split the TX and RX channels into multiple devices. Then we should be
   able to add support for input- and output-only boards with multiple
   channels.
