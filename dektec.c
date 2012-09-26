@@ -184,7 +184,7 @@ struct dektec_sc {
 	int			rx_watermark;
 
 	struct selinfo		selinfo;
-	struct mtx		mutex; /* FIXME actually use the mutex */
+	struct mtx		dektec_mtx;
 };
 
 static int
@@ -585,7 +585,7 @@ dektec_attach (device_t dev)
 	sc->fw_rev_tx = dta1xx_tx_gen_ctrl_reg_get_firmware_rev (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
 	sc->fw_rev_rx = dta1xx_rx_gen_ctrl_reg_get_firmware_rev (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 
-	mtx_init (&sc->mutex, "dektec", NULL, MTX_DEF);
+	mtx_init (&sc->dektec_mtx, "dektec", NULL, MTX_DEF);
 
 	device_printf (dev, "board model %d, firmware version %d (tx: %d, rx: %d), tx fifo %d MB\n",
 		       dta1xx_rx_gen_ctrl_reg_get_type_number (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base),
@@ -650,7 +650,7 @@ dektec_detach (device_t dev)
 
 	destroy_dev (sc->cdev);
 
-	mtx_destroy (&sc->mutex);
+	mtx_destroy (&sc->dektec_mtx);
 
 	return 0;
 }
