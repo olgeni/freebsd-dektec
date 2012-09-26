@@ -1083,7 +1083,7 @@ dektec_poll (struct cdev *cdev, int events, struct thread *td)
 static void
 dektec_intr (void *parameter)
 {
-	struct dektec_sc *sc = (struct dektec_sc *) parameter;
+	struct dektec_sc *sc = parameter;
 
 	uint32_t status, select_wakeup = 0;
 
