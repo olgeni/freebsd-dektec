@@ -134,6 +134,10 @@ Version history
 Todo
 ====
 
+- Cleanup dumb assumptions in `desc_dmamap_cb`.
+
+- Use `bus_dmamap_load_uio`.
+
 - Carefully review the dmamap callbacks for edge cases.
 
 - Split the TX and RX channels into multiple devices. Then we should be
