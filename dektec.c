@@ -104,7 +104,7 @@ static driver_intr_t dektec_intr;
 
 static struct cdevsw dektec_cdevsw = {
 	.d_version = D_VERSION,
-	.d_flags   = D_NEEDGIANT, /* FIXME do we really need GIANT? */
+	.d_flags   = 0,
 	.d_open    = dektec_open,
 	.d_close   = dektec_close,
 	.d_read    = dektec_read,
@@ -660,6 +660,8 @@ dektec_open (struct cdev *cdev, int flag, int otyp, struct thread *td)
 {
 	struct dektec_sc *sc = cdev->si_drv1;
 
+	mtx_lock (&sc->dektec_mtx);
+
 	device_busy (sc->dev);
 
 	sc->tx_watermark = 0;
@@ -683,6 +685,8 @@ dektec_open (struct cdev *cdev, int flag, int otyp, struct thread *td)
 		break;
 	}
 
+	mtx_unlock (&sc->dektec_mtx);
+
 	return 0;
 }
 
@@ -691,6 +695,8 @@ dektec_close (struct cdev *cdev, int flag, int otyp, struct thread *td)
 {
 	struct dektec_sc *sc = cdev->si_drv1;
 
+	mtx_lock (&sc->dektec_mtx);
+
 	sc->tx_watermark = 0;
 	sc->rx_watermark = 0;
 
@@ -698,6 +704,8 @@ dektec_close (struct cdev *cdev, int flag, int otyp, struct thread *td)
 	dta1xx_gen_ctrl_reg_reset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
 
 	device_unbusy (sc->dev);
+
+	mtx_unlock (&sc->dektec_mtx);
 
 	return 0;
 }
@@ -724,6 +732,8 @@ dektec_read (struct cdev *cdev, struct uio *uio, int ioflag)
 	int error = 0;
 
 	struct dektec_sc *sc = cdev->si_drv1;
+
+	mtx_lock (&sc->dektec_mtx);
 
 	while (uio->uio_resid > 0) {
 		struct plx_dma_buffer *dma_buffer = &sc->rx_buffer;
@@ -781,10 +791,10 @@ dektec_read (struct cdev *cdev, struct uio *uio, int ioflag)
 
 		sc->rx_buffer.flags |= DMA_BUSY;
 
-		if (tsleep (&sc->rx_buffer, PRIBIO, DEKTEC_STATE_READ, RX_TIMEOUT) == EWOULDBLOCK) {
+		if (mtx_sleep (&sc->rx_buffer, &sc->dektec_mtx, PRIBIO, DEKTEC_STATE_READ, RX_TIMEOUT) == EWOULDBLOCK) {
 			error = EIO;
 
-			goto tsleep;
+			break;
 		}
 
 		unload_rx_buffer (sc);
@@ -792,12 +802,14 @@ dektec_read (struct cdev *cdev, struct uio *uio, int ioflag)
 
 	goto done;
 
-tsleep:
 uiomove:
 	unload_rx_buffer (sc);
 
 bus_dmamap_load:
 done:
+
+	mtx_unlock (&sc->dektec_mtx);
+
 	return error;
 }
 
@@ -807,6 +819,8 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 	int error = 0;
 
 	struct dektec_sc *sc = cdev->si_drv1;
+
+	mtx_lock (&sc->dektec_mtx);
 
 	while (uio->uio_resid > 0) {
 		struct plx_dma_buffer *dma_buffer = &sc->tx_buffer;
@@ -864,7 +878,7 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 
 		sc->tx_buffer.flags |= DMA_BUSY;
 
-		if (tsleep (&sc->tx_buffer, PRIBIO, DEKTEC_STATE_WRITE, TX_TIMEOUT) == EWOULDBLOCK) {
+		if (mtx_sleep (&sc->tx_buffer, &sc->dektec_mtx, PRIBIO, DEKTEC_STATE_WRITE, TX_TIMEOUT) == EWOULDBLOCK) {
 			printf ("dektec_write: EIO (fifo size: %d, load: %d, watermark: %d)\n",
 				dta1xx_tx_get_fifo_size_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base),
 				dta1xx_tx_get_fifo_load_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base),
@@ -872,7 +886,7 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 
 			error = EIO;
 
-			goto tsleep;
+			break;
 		}
 
 		unload_tx_buffer (sc);
@@ -880,12 +894,13 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 
 	goto done;
 
-tsleep:
 uiomove:
 	unload_tx_buffer (sc);
 
 bus_dmamap_load:
 done:
+	mtx_unlock (&sc->dektec_mtx);
+
 	return error;
 }
 
@@ -893,6 +908,8 @@ static int
 dektec_ioctl (struct cdev *cdev, u_long cmd, caddr_t arg, int mode, struct thread *td)
 {
 	struct dektec_sc *sc = cdev->si_drv1;
+
+	mtx_lock (&sc->dektec_mtx);
 
 	int error = 0;
 
@@ -1056,6 +1073,8 @@ dektec_ioctl (struct cdev *cdev, u_long cmd, caddr_t arg, int mode, struct threa
 		break;
 	}
 
+	mtx_unlock (&sc->dektec_mtx);
+
 	return error;
 }
 
@@ -1063,6 +1082,8 @@ static int
 dektec_poll (struct cdev *cdev, int events, struct thread *td)
 {
 	struct dektec_sc *sc = cdev->si_drv1;
+
+	mtx_lock (&sc->dektec_mtx);
 
 	int mask = 0;
 
@@ -1072,12 +1093,12 @@ dektec_poll (struct cdev *cdev, int events, struct thread *td)
 	if ((events & (POLLIN | POLLRDNORM)) && (rx_data_available (sc)))
 		mask |= (POLLIN | POLLRDNORM);
 
-	if (mask != 0)
-		return events & mask;
+	if (mask == 0)
+		selrecord (td, &sc->selinfo);
 
-	selrecord (td, &sc->selinfo);
+	mtx_unlock (&sc->dektec_mtx); /* FIXME move up */
 
-	return 0;
+	return events & mask;
 }
 
 static void
@@ -1085,16 +1106,15 @@ dektec_intr (void *parameter)
 {
 	struct dektec_sc *sc = parameter;
 
-	uint32_t status, select_wakeup = 0;
+	mtx_lock (&sc->dektec_mtx);
+
+	uint32_t status;
 
 	if (dta1xx_gen_status_reg_get_per_int (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base)) {
 		dta1xx_gen_status_reg_clr_per_int (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
 
 		if (sc->model == BOARD_MODEL_145 || sc->model == BOARD_MODEL_2145)
 			dta1xx_gen_pulse_watchdog (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
-
-		if (tx_fifo_available (sc) || rx_data_available (sc))
-			select_wakeup = 1;
 	}
 
 	/* FIXME use PCI905X_INTCSR_DMA0_INTACT / PCI905X_INTCSR_DMA1_INTACT */
@@ -1165,10 +1185,11 @@ dektec_intr (void *parameter)
 				     DTA1XX_TXSTAT_THRINT  |
 				     DTA1XX_TXSTAT_SHORTINT);
 
-	if (select_wakeup && SEL_WAITING (&sc->selinfo))
+	if (SEL_WAITING (&sc->selinfo))
 		selwakeup (&sc->selinfo);
-}
 
+	mtx_unlock (&sc->dektec_mtx);
+}
 
 static device_method_t dektec_methods[] = {
 	/* Device interface */
