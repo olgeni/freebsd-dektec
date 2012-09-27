@@ -130,7 +130,7 @@ Version history
 
 - v1.0.0: Initial import from production code
 - v1.1.0: General cleanup
-- v1.2.0: Locking improvements
+- v1.2.1: Locking improvements
 
 Todo
 ====
