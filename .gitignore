@@ -1,4 +1,5 @@
 *.ko
+*.kld
 *.o
 @
 README.html
