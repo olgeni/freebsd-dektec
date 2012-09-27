@@ -26,6 +26,7 @@
  */
 
 #include <sys/param.h>
+#include <sys/condvar.h>
 #include <sys/systm.h>
 #include <sys/conf.h>
 #include <sys/kernel.h>
@@ -35,6 +36,7 @@
 #include <sys/poll.h>
 #include <sys/selinfo.h>
 #include <sys/rman.h>
+#include <sys/taskqueue.h>
 #include <machine/bus.h>
 
 #include <dev/pci/pcivar.h>
@@ -92,7 +94,8 @@
 #define DESC_MAX_DMA_SEGMENTS         256
 #define DESC_MAX_DMA_SEGMENT_SIZE   65536
 
-#define DMA_BUSY 0x01
+#define DMA_BUSY     0x01
+#define DMA_COMPLETE 0x02
 
 static d_open_t      dektec_open;
 static d_close_t     dektec_close;
@@ -101,6 +104,8 @@ static d_read_t      dektec_read;
 static d_write_t     dektec_write;
 static d_poll_t      dektec_poll;
 static driver_intr_t dektec_intr;
+
+static void dektec_task (void *, int);
 
 static struct cdevsw dektec_cdevsw = {
 	.d_version = D_VERSION,
@@ -142,6 +147,11 @@ struct plx_dma_buffer {
 	uint8_t			*buffer;
 
 	struct plx_dma_desc	*desc_list;
+
+	struct mtx		buffer_mtx; /* MTX_SPIN */
+
+	struct mtx		event_mtx;
+	struct cv		event_cv;
 };
 
 struct dektec_sc {
@@ -185,6 +195,8 @@ struct dektec_sc {
 
 	struct selinfo		selinfo;
 	struct mtx		dektec_mtx;
+
+	struct task		task;
 };
 
 static int
@@ -300,46 +312,55 @@ done:
 	return;
 }
 
+static void
+init_buffer (struct dektec_sc *sc, struct plx_dma_buffer *dma_buffer)
+{
+	memset (dma_buffer, 0, sizeof (struct plx_dma_buffer));
+
+	dma_buffer->sc = sc;
+
+	mtx_init (&dma_buffer->buffer_mtx, "buffer_mtx", NULL, MTX_SPIN);
+	mtx_init (&dma_buffer->event_mtx, "event_mtx", NULL, MTX_DEF);
+	cv_init (&dma_buffer->event_cv, "event_cv");
+}
+
+static void
+signal_buffer (struct plx_dma_buffer *dma_buffer)
+{
+	mtx_lock (&dma_buffer->event_mtx);
+	cv_signal (&dma_buffer->event_cv);
+	mtx_unlock (&dma_buffer->event_mtx);
+}
+
+static void
+maybe_signal_buffer (struct plx_dma_buffer *dma_buffer)
+{
+	int complete;
+
+	mtx_lock_spin (&dma_buffer->buffer_mtx);
+
+	if ((complete = ((dma_buffer->flags & DMA_COMPLETE) == DMA_COMPLETE)))
+		dma_buffer->flags &= ~DMA_COMPLETE;
+
+	mtx_unlock_spin (&dma_buffer->buffer_mtx);
+
+	if (complete)
+		signal_buffer (dma_buffer);
+}
+
+static void
+destroy_buffer (struct dektec_sc *sc, struct plx_dma_buffer *dma_buffer)
+{
+	cv_destroy (&dma_buffer->event_cv);
+}
+
 static int
 allocate_buffer (device_t dev, struct dektec_sc *sc, struct plx_dma_buffer *dma_buffer)
 {
-	int error = 0;
-
-	dma_buffer->sc = sc;
-	dma_buffer->segment_count = 0;
-	dma_buffer->desc_ds_addr = 0;
-	dma_buffer->flags = 0;
-	dma_buffer->desc_list = NULL;
-
-	error = bus_dmamap_create (sc->buffer_dma_tag, 0, &dma_buffer->buffer_dmamap);
-
-	if (error)
-		goto bus_dmamap_create0;
-
-	error = bus_dmamap_create (sc->desc_dma_tag, 0, &dma_buffer->desc_dmamap);
-
-	if (error)
-		goto bus_dmamap_create1;
-
-	error = bus_dmamem_alloc (sc->buffer_dma_tag,
-				  (void **) &dma_buffer->buffer,
-				  BUS_DMA_WAITOK | BUS_DMA_ZERO,
-				  &dma_buffer->buffer_dmamap);
-
-	if (error)
-		goto bus_dmamem_alloc;
-
-	goto done;
-
-bus_dmamem_alloc:
-	bus_dmamap_destroy (sc->desc_dma_tag, dma_buffer->desc_dmamap);
-
-bus_dmamap_create1:
-	bus_dmamap_destroy (sc->buffer_dma_tag, dma_buffer->buffer_dmamap);
-
-bus_dmamap_create0:
-done:
-	return error;
+	return bus_dmamem_alloc (sc->buffer_dma_tag,
+				 (void **) &dma_buffer->buffer,
+				 BUS_DMA_WAITOK | BUS_DMA_ZERO,
+				 &dma_buffer->buffer_dmamap);
 }
 
 static int
@@ -347,29 +368,7 @@ free_buffer (device_t dev, struct dektec_sc *sc, struct plx_dma_buffer *dma_buff
 {
 	bus_dmamem_free (sc->buffer_dma_tag, dma_buffer->buffer, dma_buffer->buffer_dmamap);
 
-	bus_dmamap_destroy (sc->buffer_dma_tag, dma_buffer->buffer_dmamap);
-	bus_dmamap_destroy (sc->desc_dma_tag, dma_buffer->desc_dmamap);
-
 	return 0;
-}
-
-static int
-tx_fifo_available (struct dektec_sc *sc)
-{
-	int tx_fifo_size = dta1xx_tx_get_fifo_size_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
-	int tx_fifo_load = dta1xx_tx_get_fifo_load_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
-
-	int tx_fifo_available = tx_fifo_size - tx_fifo_load;
-
-	return (tx_fifo_available > 0) && (tx_fifo_available >= sc->tx_watermark);
-}
-
-static int
-rx_data_available (struct dektec_sc *sc)
-{
-	int rx_fifo_load = dta1xx_rx_get_fifo_load_reg (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
-
-	return (rx_fifo_load > 0) && (rx_fifo_load >= sc->rx_watermark);
 }
 
 static void
@@ -477,6 +476,8 @@ dektec_attach (device_t dev)
 
 	sc->model = get_device_model (dev);
 
+	TASK_INIT (&sc->task, 0, dektec_task, (void *) sc);
+
 	int unit = device_get_unit (dev);
 
 	if ((sc->cdev = make_dev (&dektec_cdevsw, unit, UID_ROOT, GID_OPERATOR, 0666, "dektec%d", unit)) == NULL)
@@ -566,6 +567,9 @@ dektec_attach (device_t dev)
 	if (error)
 		goto bus_dma_tag_create_desc;
 
+	init_buffer (sc, &sc->tx_buffer);
+	init_buffer (sc, &sc->rx_buffer);
+
 	error = allocate_buffer (dev, sc, &sc->tx_buffer);
 
 	if (error)
@@ -598,6 +602,9 @@ allocate_rx_buffer:
 	free_buffer (dev, sc, &sc->tx_buffer);
 
 allocate_tx_buffer:
+	destroy_buffer (sc, &sc->rx_buffer);
+	destroy_buffer (sc, &sc->tx_buffer);
+
 	bus_dma_tag_destroy (sc->desc_dma_tag);
 
 bus_dma_tag_create_desc:
@@ -634,6 +641,9 @@ dektec_detach (device_t dev)
 	free_buffer (dev, sc, &sc->rx_buffer);
 	free_buffer (dev, sc, &sc->tx_buffer);
 
+	destroy_buffer (sc, &sc->tx_buffer);
+	destroy_buffer (sc, &sc->rx_buffer);
+
 	bus_dma_tag_destroy (sc->desc_dma_tag);
 	bus_dma_tag_destroy (sc->buffer_dma_tag);
 
@@ -660,12 +670,14 @@ dektec_open (struct cdev *cdev, int flag, int otyp, struct thread *td)
 {
 	struct dektec_sc *sc = cdev->si_drv1;
 
-	mtx_lock (&sc->dektec_mtx);
-
 	device_busy (sc->dev);
+
+	mtx_lock (&sc->dektec_mtx);
 
 	sc->tx_watermark = 0;
 	sc->rx_watermark = 0;
+
+	mtx_unlock (&sc->dektec_mtx);
 
 	dta1xx_gen_ctrl_reg_reset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
 	dta1xx_gen_ctrl_reg_set_per_int_val (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base, 4); /* 145 */
@@ -685,8 +697,6 @@ dektec_open (struct cdev *cdev, int flag, int otyp, struct thread *td)
 		break;
 	}
 
-	mtx_unlock (&sc->dektec_mtx);
-
 	return 0;
 }
 
@@ -700,12 +710,12 @@ dektec_close (struct cdev *cdev, int flag, int otyp, struct thread *td)
 	sc->tx_watermark = 0;
 	sc->rx_watermark = 0;
 
+	mtx_unlock (&sc->dektec_mtx);
+
 	dta1xx_gen_ctrl_reg_set_per_int_en (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base, 0);
 	dta1xx_gen_ctrl_reg_reset (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base);
 
 	device_unbusy (sc->dev);
-
-	mtx_unlock (&sc->dektec_mtx);
 
 	return 0;
 }
@@ -765,6 +775,15 @@ dektec_read (struct cdev *cdev, struct uio *uio, int ioflag)
 		bus_dmamap_sync (sc->desc_dma_tag, sc->rx_buffer.desc_dmamap, BUS_DMASYNC_PREREAD);
 		bus_dmamap_sync (sc->buffer_dma_tag, sc->rx_buffer.buffer_dmamap, BUS_DMASYNC_PREREAD);
 
+		mtx_lock_spin (&sc->rx_buffer.buffer_mtx);
+
+		/* FIXME check for DMA_COMPLETE */
+
+		sc->rx_buffer.flags &= ~DMA_COMPLETE;
+		sc->rx_buffer.flags |= DMA_BUSY;
+
+		mtx_unlock_spin (&sc->rx_buffer.buffer_mtx);
+
 		if (sc->legacy_plx) {
 			/* DMA1 is used for reading */
 			bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_DESC_PTR,
@@ -789,13 +808,14 @@ dektec_read (struct cdev *cdev, struct uio *uio, int ioflag)
 			bus_space_read_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_CMD_STAT);
 		}
 
-		sc->rx_buffer.flags |= DMA_BUSY;
+		mtx_lock (&sc->rx_buffer.event_mtx);
 
-		if (mtx_sleep (&sc->rx_buffer, &sc->dektec_mtx, PRIBIO, DEKTEC_STATE_READ, RX_TIMEOUT) == EWOULDBLOCK) {
-			error = EIO;
-
-			break;
+		while ((sc->rx_buffer.flags & DMA_BUSY) == DMA_BUSY) {
+			if ((error = cv_timedwait (&sc->rx_buffer.event_cv, &sc->rx_buffer.event_mtx, RX_TIMEOUT)))
+				break;
 		}
+
+		mtx_unlock (&sc->rx_buffer.event_mtx);
 
 		unload_rx_buffer (sc);
 	}
@@ -852,6 +872,15 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 		bus_dmamap_sync (sc->desc_dma_tag, sc->tx_buffer.desc_dmamap, BUS_DMASYNC_PREREAD);
 		bus_dmamap_sync (sc->buffer_dma_tag, sc->tx_buffer.buffer_dmamap, BUS_DMASYNC_PREREAD);
 
+		mtx_lock_spin (&sc->tx_buffer.buffer_mtx);
+
+		/* FIXME check for DMA_COMPLETE */
+
+		sc->tx_buffer.flags &= ~DMA_COMPLETE;
+		sc->tx_buffer.flags |= DMA_BUSY;
+
+		mtx_unlock_spin (&sc->tx_buffer.buffer_mtx);
+
 		if (sc->legacy_plx) {
 			/* DMA0 is used for writing */
 			bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_DESC_PTR,
@@ -876,13 +905,14 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 			bus_space_read_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_CMD_STAT);
 		}
 
-		sc->tx_buffer.flags |= DMA_BUSY;
+		mtx_lock (&sc->tx_buffer.event_mtx);
 
-		if (mtx_sleep (&sc->tx_buffer, &sc->dektec_mtx, PRIBIO, DEKTEC_STATE_WRITE, TX_TIMEOUT) == EWOULDBLOCK) {
-			error = EIO;
-
-			break;
+		while ((sc->tx_buffer.flags & DMA_BUSY) == DMA_BUSY) {
+			if ((error = cv_timedwait (&sc->tx_buffer.event_cv, &sc->tx_buffer.event_mtx, RX_TIMEOUT)))
+				break;
 		}
+
+		mtx_unlock (&sc->tx_buffer.event_mtx);
 
 		unload_tx_buffer (sc);
 	}
@@ -903,8 +933,6 @@ static int
 dektec_ioctl (struct cdev *cdev, u_long cmd, caddr_t arg, int mode, struct thread *td)
 {
 	struct dektec_sc *sc = cdev->si_drv1;
-
-	mtx_lock (&sc->dektec_mtx);
 
 	int error = 0;
 
@@ -1051,24 +1079,30 @@ dektec_ioctl (struct cdev *cdev, u_long cmd, caddr_t arg, int mode, struct threa
 		/* Fifo */
 
 	case IOCTL_Dta1xxTxSetWatermark:
+		mtx_lock (&sc->dektec_mtx);
 		sc->tx_watermark = *(int *) arg;
+		mtx_unlock (&sc->dektec_mtx);
 		break;
 	case IOCTL_Dta1xxTxGetWatermark:
+		mtx_lock (&sc->dektec_mtx);
 		*(int *) arg = sc->tx_watermark;
+		mtx_unlock (&sc->dektec_mtx);
 		break;
 	case IOCTL_Dta1xxRxSetWatermark:
+		mtx_lock (&sc->dektec_mtx);
 		sc->rx_watermark = *(int *) arg;
+		mtx_unlock (&sc->dektec_mtx);
 		break;
 	case IOCTL_Dta1xxRxGetWatermark:
+		mtx_lock (&sc->dektec_mtx);
 		*(int *) arg = sc->rx_watermark;
+		mtx_unlock (&sc->dektec_mtx);
 		break;
 
 	default:
 		error = EINVAL;
 		break;
 	}
-
-	mtx_unlock (&sc->dektec_mtx);
 
 	return error;
 }
@@ -1078,20 +1112,24 @@ dektec_poll (struct cdev *cdev, int events, struct thread *td)
 {
 	struct dektec_sc *sc = cdev->si_drv1;
 
-	mtx_lock (&sc->dektec_mtx);
+	int tx_fifo_size = dta1xx_tx_get_fifo_size_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+	int tx_fifo_load = dta1xx_tx_get_fifo_load_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base);
+	int rx_fifo_load = dta1xx_rx_get_fifo_load_reg (sc->dta_base_bt, sc->dta_base_bh, sc->rx_base);
 
 	int mask = 0;
 
-	if ((events & (POLLOUT | POLLWRNORM)) && (tx_fifo_available (sc)))
+	mtx_lock (&sc->dektec_mtx);
+
+	if ((events & (POLLOUT | POLLWRNORM)) && (((tx_fifo_size - tx_fifo_load) > sc->tx_watermark)))
 		mask |= (POLLOUT | POLLWRNORM);
 
-	if ((events & (POLLIN | POLLRDNORM)) && (rx_data_available (sc)))
+	if ((events & (POLLIN | POLLRDNORM)) && ((rx_fifo_load > sc->rx_watermark)))
 		mask |= (POLLIN | POLLRDNORM);
+
+	mtx_unlock (&sc->dektec_mtx);
 
 	if (mask == 0)
 		selrecord (td, &sc->selinfo);
-
-	mtx_unlock (&sc->dektec_mtx); /* FIXME move up */
 
 	return events & mask;
 }
@@ -1123,8 +1161,13 @@ dektec_intr (void *parameter)
 						   PCI905X_DMACSR_CLEARINT);
 
 				bus_space_read_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_COMMAND_STAT);
+
+				mtx_lock_spin (&sc->tx_buffer.buffer_mtx);
+
 				sc->tx_buffer.flags &= ~DMA_BUSY;
-				wakeup (&sc->tx_buffer);
+				sc->tx_buffer.flags |= DMA_COMPLETE;
+
+				mtx_unlock_spin (&sc->tx_buffer.buffer_mtx);
 			}
 		}
 
@@ -1138,8 +1181,13 @@ dektec_intr (void *parameter)
 						   PCI905X_DMACSR_CLEARINT);
 
 				bus_space_read_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT);
+
+				mtx_lock_spin (&sc->rx_buffer.buffer_mtx);
+
 				sc->rx_buffer.flags &= ~DMA_BUSY;
-				wakeup (&sc->rx_buffer);
+				sc->rx_buffer.flags |= DMA_COMPLETE;
+
+				mtx_unlock_spin (&sc->rx_buffer.buffer_mtx);
 			}
 		}
 	} else {
@@ -1158,7 +1206,9 @@ dektec_intr (void *parameter)
 			mtx_lock_spin (&sc->tx_buffer.buffer_mtx);
 
 			sc->tx_buffer.flags &= ~DMA_BUSY;
-			wakeup (&sc->tx_buffer);
+			sc->tx_buffer.flags |= DMA_COMPLETE;
+
+			mtx_unlock_spin (&sc->tx_buffer.buffer_mtx);
 		}
 
 		/* DMA0 is used for reading */
@@ -1170,8 +1220,13 @@ dektec_intr (void *parameter)
 					   PCI905X_DMACSR_CLEARINT);
 
 			bus_space_read_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_CMD_STAT);
+
+			mtx_lock_spin (&sc->rx_buffer.buffer_mtx);
+
 			sc->rx_buffer.flags &= ~DMA_BUSY;
-			wakeup (&sc->rx_buffer);
+			sc->rx_buffer.flags |= DMA_COMPLETE;
+
+			mtx_unlock_spin (&sc->rx_buffer.buffer_mtx);
 		}
 	}
 
@@ -1191,6 +1246,17 @@ dektec_intr (void *parameter)
 
 	if (SEL_WAITING (&sc->selinfo))
 		selwakeup (&sc->selinfo);
+
+	taskqueue_enqueue (taskqueue_swi, &sc->task);
+}
+
+static void
+dektec_task (void *arg, int pending __unused)
+{
+	struct dektec_sc *sc = arg;
+
+	maybe_signal_buffer (&sc->tx_buffer);
+	maybe_signal_buffer (&sc->rx_buffer);
 }
 
 static device_method_t dektec_methods[] = {
