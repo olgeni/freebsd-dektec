@@ -295,7 +295,7 @@ buffer_dmamap_cb (void *arg, bus_dma_segment_t *segments, int nseg, int error_fl
 		goto bus_dmamap_load;
 
 	for (int i = 0; i < nseg; i++) {
-		struct plx_dma_desc *desc = (struct plx_dma_desc *) &(dma_buffer->desc_list[i]);
+		struct plx_dma_desc *desc = (struct plx_dma_desc *) &dma_buffer->desc_list[i];
 
 		desc->pci_addr = segments[i].ds_addr;
 		desc->bytes = segments[i].ds_len;
@@ -491,7 +491,7 @@ dektec_attach (device_t dev)
 
 	if (sc->legacy_plx) {
 		sc->plx_base_id = PCIR_BAR (0);
-		sc->plx_base_res = bus_alloc_resource_any (dev, SYS_RES_MEMORY, &(sc->plx_base_id), RF_ACTIVE);
+		sc->plx_base_res = bus_alloc_resource_any (dev, SYS_RES_MEMORY, &sc->plx_base_id, RF_ACTIVE);
 
 		if (sc->plx_base_res == NULL)
 			goto bus_alloc_resource_any_plx_reg;
@@ -501,7 +501,7 @@ dektec_attach (device_t dev)
 
 		/* FIXME refactor dta_base */
 		sc->dta_base_id = PCIR_BAR (2);
-		sc->dta_base_res = bus_alloc_resource_any (dev, SYS_RES_MEMORY, &(sc->dta_base_id), RF_ACTIVE);
+		sc->dta_base_res = bus_alloc_resource_any (dev, SYS_RES_MEMORY, &sc->dta_base_id, RF_ACTIVE);
 
 		if (sc->dta_base_res == NULL)
 			goto bus_alloc_resource_any_dta_base;
@@ -522,7 +522,7 @@ dektec_attach (device_t dev)
 
 		/* FIXME refactor dta_base */
 		sc->dta_base_id = PCIR_BAR (0);
-		sc->dta_base_res = bus_alloc_resource_any (dev, SYS_RES_MEMORY, &(sc->dta_base_id), RF_ACTIVE);
+		sc->dta_base_res = bus_alloc_resource_any (dev, SYS_RES_MEMORY, &sc->dta_base_id, RF_ACTIVE);
 
 		if (sc->dta_base_res == NULL)
 			goto bus_alloc_resource_any_dta_base;
@@ -541,12 +541,12 @@ dektec_attach (device_t dev)
 	}
 
 	sc->irq_id = 0x0;
-	sc->irq_res = bus_alloc_resource_any (dev, SYS_RES_IRQ, &(sc->irq_id), RF_SHAREABLE | RF_ACTIVE);
+	sc->irq_res = bus_alloc_resource_any (dev, SYS_RES_IRQ, &sc->irq_id, RF_SHAREABLE | RF_ACTIVE);
 
 	if (sc->irq_res == NULL)
 		goto bus_alloc_resource_any_irq;
 
-	error = bus_setup_intr (dev, sc->irq_res, INTR_TYPE_MISC, NULL, dektec_intr, sc, &(sc->irq_cookie));
+	error = bus_setup_intr (dev, sc->irq_res, INTR_TYPE_MISC, NULL, dektec_intr, sc, &sc->irq_cookie);
 
 	if (error)
 		goto bus_setup_intr;
@@ -769,7 +769,7 @@ dektec_read (struct cdev *cdev, struct uio *uio, int ioflag)
 			goto bus_dmamap_load;
 
 		for (int i = 0; i < sc->rx_buffer.segment_count; i++) {
-			struct plx_dma_desc *desc = (struct plx_dma_desc *) &(sc->rx_buffer.desc_list[i]);
+			struct plx_dma_desc *desc = (struct plx_dma_desc *) &sc->rx_buffer.desc_list[i];
 
 			desc->local_addr = sc->rx_base + DTA1XX_RX_REG_FIFO_FIRST;
 			desc->next_desc |= PCI905X_DMADPR_DIROFTFR;
@@ -866,7 +866,7 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 			goto bus_dmamap_load;
 
 		for (int i = 0; i < sc->tx_buffer.segment_count; i++) {
-			struct plx_dma_desc *desc = (struct plx_dma_desc *) &(sc->tx_buffer.desc_list[i]);
+			struct plx_dma_desc *desc = (struct plx_dma_desc *) &sc->tx_buffer.desc_list[i];
 
 			desc->local_addr = sc->tx_base + DTA1XX_TX_REG_FIFO_FIRST;
 			desc->next_desc &= ~PCI905X_DMADPR_DIROFTFR;
