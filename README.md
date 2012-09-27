@@ -105,9 +105,9 @@ Bugs / gotchas
 ==============
 
 - None if you use it correctly :) uptimes of years have been observed in
-  production, but the range of operations performed by the client software
-  is quite narrow so you'd better test everything _carefully_ in your
-  environment.
+  production (v1.0.0), but the range of operations performed by the client
+  software is quite narrow so you'd better test everything _carefully_ in
+  your environment.
 
 - Only 188-byte packet are supported.
 
