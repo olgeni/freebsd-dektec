@@ -289,7 +289,7 @@ buffer_dmamap_cb (void *arg, bus_dma_segment_t *segments, int nseg, int error_fl
 				 dma_buffer->desc_list,
 				 nseg * sizeof (struct plx_dma_desc),
 				 desc_dmamap_cb,
-				 dma_buffer, 0);
+				 dma_buffer, BUS_DMA_NOWAIT);
 
 	if (error)
 		goto bus_dmamap_load;
@@ -755,7 +755,7 @@ dektec_read (struct cdev *cdev, struct uio *uio, int ioflag)
 					 sc->rx_buffer.buffer,
 					 amount,
 					 buffer_dmamap_cb,
-					 dma_buffer, 0);
+					 dma_buffer, BUS_DMA_NOWAIT);
 
 		if (error)
 			goto bus_dmamap_load;
@@ -852,7 +852,7 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 					 sc->tx_buffer.buffer,
 					 amount,
 					 buffer_dmamap_cb,
-					 dma_buffer, 0);
+					 dma_buffer, BUS_DMA_NOWAIT);
 
 		if (error)
 			goto bus_dmamap_load;
