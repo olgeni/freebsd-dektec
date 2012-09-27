@@ -1106,8 +1106,6 @@ dektec_intr (void *parameter)
 {
 	struct dektec_sc *sc = parameter;
 
-	mtx_lock (&sc->dektec_mtx);
-
 	uint32_t status;
 
 	if (dta1xx_gen_status_reg_get_per_int (sc->dta_base_bt, sc->dta_base_bh, sc->gen_base)) {
@@ -1187,8 +1185,6 @@ dektec_intr (void *parameter)
 
 	if (SEL_WAITING (&sc->selinfo))
 		selwakeup (&sc->selinfo);
-
-	mtx_unlock (&sc->dektec_mtx);
 }
 
 static device_method_t dektec_methods[] = {
