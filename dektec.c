@@ -1119,7 +1119,9 @@ dektec_intr (void *parameter)
 		if ((status & PCI905X_DMACSR_DONE) == PCI905X_DMACSR_DONE) {
 			if ((sc->tx_buffer.flags & DMA_BUSY) == DMA_BUSY) {
 				bus_space_write_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_COMMAND_STAT,
-						   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT);
+						   PCI905X_DMACSR_ENABLE |
+						   PCI905X_DMACSR_CLEARINT);
+
 				bus_space_read_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA0_COMMAND_STAT);
 				sc->tx_buffer.flags &= ~DMA_BUSY;
 				wakeup (&sc->tx_buffer);
@@ -1132,7 +1134,9 @@ dektec_intr (void *parameter)
 		if ((status & PCI905X_DMACSR_DONE) == PCI905X_DMACSR_DONE) {
 			if ((sc->rx_buffer.flags & DMA_BUSY) == DMA_BUSY) {
 				bus_space_write_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT,
-						   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT);
+						   PCI905X_DMACSR_ENABLE |
+						   PCI905X_DMACSR_CLEARINT);
+
 				bus_space_read_1 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_DMA1_COMMAND_STAT);
 				sc->rx_buffer.flags &= ~DMA_BUSY;
 				wakeup (&sc->rx_buffer);
@@ -1146,8 +1150,13 @@ dektec_intr (void *parameter)
 
 		if ((status & DTA1XX_DMACSR_INTACT) != 0) {
 			bus_space_write_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_CMD_STAT,
-					   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT);
+					   PCI905X_DMACSR_ENABLE |
+					   PCI905X_DMACSR_CLEARINT);
+
 			bus_space_read_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base1 + REG_CMD_STAT);
+
+			mtx_lock_spin (&sc->tx_buffer.buffer_mtx);
+
 			sc->tx_buffer.flags &= ~DMA_BUSY;
 			wakeup (&sc->tx_buffer);
 		}
@@ -1157,7 +1166,9 @@ dektec_intr (void *parameter)
 
 		if ((status & DTA1XX_DMACSR_INTACT) != 0) {
 			bus_space_write_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_CMD_STAT,
-					   PCI905X_DMACSR_ENABLE | PCI905X_DMACSR_CLEARINT);
+					   PCI905X_DMACSR_ENABLE |
+					   PCI905X_DMACSR_CLEARINT);
+
 			bus_space_read_1 (sc->dta_base_bt, sc->dta_base_bh, sc->dma_base0 + REG_CMD_STAT);
 			sc->rx_buffer.flags &= ~DMA_BUSY;
 			wakeup (&sc->rx_buffer);
