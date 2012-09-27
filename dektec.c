@@ -324,7 +324,7 @@ allocate_buffer (device_t dev, struct dektec_sc *sc, struct plx_dma_buffer *dma_
 	error = bus_dmamem_alloc (sc->buffer_dma_tag,
 				  (void **) &dma_buffer->buffer,
 				  BUS_DMA_WAITOK | BUS_DMA_ZERO,
-				  &(dma_buffer->buffer_dmamap));
+				  &dma_buffer->buffer_dmamap);
 
 	if (error)
 		goto bus_dmamem_alloc;
