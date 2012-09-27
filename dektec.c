@@ -879,11 +879,6 @@ dektec_write (struct cdev *cdev, struct uio *uio, int ioflag)
 		sc->tx_buffer.flags |= DMA_BUSY;
 
 		if (mtx_sleep (&sc->tx_buffer, &sc->dektec_mtx, PRIBIO, DEKTEC_STATE_WRITE, TX_TIMEOUT) == EWOULDBLOCK) {
-			printf ("dektec_write: EIO (fifo size: %d, load: %d, watermark: %d)\n",
-				dta1xx_tx_get_fifo_size_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base),
-				dta1xx_tx_get_fifo_load_reg (sc->dta_base_bt, sc->dta_base_bh, sc->tx_base),
-				sc->tx_watermark);
-
 			error = EIO;
 
 			break;
