@@ -382,11 +382,11 @@ reset_plx (device_t dev)
 	bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT,
 			   cntrl | PCI905X_CNTRL_RESET);
 	bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
-	DELAY (100L);
+	DELAY (100);
 
 	bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT, cntrl);
 	bus_space_read_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT);
-	DELAY (100L);
+	DELAY (100);
 
 	bus_space_write_4 (sc->plx_base_bt, sc->plx_base_bh, PCI905X_EEPROM_CTRL_STAT,
 			   cntrl | PCI905X_CNTRL_RECONFIG);
