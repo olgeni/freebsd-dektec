@@ -131,6 +131,7 @@ Version history
 - v1.0.0: Initial import from production code
 - v1.1.0: General cleanup
 - v1.2.1: Locking improvements
+- v1.2.2: Fixed call to bus_dmamap_load (BUS_DMA_NOWAIT).
 
 Todo
 ====
